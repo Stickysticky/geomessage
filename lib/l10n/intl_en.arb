@@ -1,0 +1,7 @@
+{
+    "@@locale": "en",
+    "title": "GeoMessage",
+    "createMessage": "Message creation",
+    "activeMessage": "actives messages",
+    "sentMessages": "sent messages"
+}
