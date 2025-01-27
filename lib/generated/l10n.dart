@@ -89,6 +89,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Veuillez ajouter la localisation pour l'envoie du message`
+  String get infoMessagePoint {
+    return Intl.message(
+      'Veuillez ajouter la localisation pour l\'envoie du message',
+      name: 'infoMessagePoint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gps désactivé`
+  String get gpsDisabled {
+    return Intl.message(
+      'Gps désactivé',
+      name: 'gpsDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pour bénéficier de toutes les fonctionnalités de l'application, veuillez activer le GPS`
+  String get gpsDisabledInfo {
+    return Intl.message(
+      'Pour bénéficier de toutes les fonctionnalités de l\'application, veuillez activer le GPS',
+      name: 'gpsDisabledInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activer le GPS`
+  String get gpsActivation {
+    return Intl.message(
+      'Activer le GPS',
+      name: 'gpsActivation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

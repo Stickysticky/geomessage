@@ -24,6 +24,14 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "activeMessage": MessageLookupByLibrary.simpleMessage("actives messages"),
     "createMessage": MessageLookupByLibrary.simpleMessage("Message creation"),
+    "gpsActivation": MessageLookupByLibrary.simpleMessage("Enable GPS"),
+    "gpsDisabled": MessageLookupByLibrary.simpleMessage("GPS disabled"),
+    "gpsDisabledInfo": MessageLookupByLibrary.simpleMessage(
+      "To benefit from all the features of the application, please activate GPS",
+    ),
+    "infoMessagePoint": MessageLookupByLibrary.simpleMessage(
+      "Please add the location for sending the message",
+    ),
     "sentMessages": MessageLookupByLibrary.simpleMessage("sent messages"),
     "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
   };

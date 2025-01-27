@@ -3,5 +3,9 @@
     "title": "GeoMessage",
     "createMessage": "Message creation",
     "activeMessage": "actives messages",
-    "sentMessages": "sent messages"
+    "sentMessages": "sent messages",
+    "infoMessagePoint": "Please add the location for sending the message",
+    "gpsDisabled": "GPS disabled",
+    "gpsDisabledInfo": "To benefit from all the features of the application, please activate GPS",
+    "gpsActivation": "Enable GPS"
 }

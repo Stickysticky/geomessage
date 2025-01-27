@@ -26,6 +26,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "createMessage": MessageLookupByLibrary.simpleMessage(
       "Création d\'un message",
     ),
+    "gpsActivation": MessageLookupByLibrary.simpleMessage("Activer le GPS"),
+    "gpsDisabled": MessageLookupByLibrary.simpleMessage("Gps désactivé"),
+    "gpsDisabledInfo": MessageLookupByLibrary.simpleMessage(
+      "Pour bénéficier de toutes les fonctionnalités de l\'application, veuillez activer le GPS",
+    ),
+    "infoMessagePoint": MessageLookupByLibrary.simpleMessage(
+      "Veuillez ajouter la localisation pour l\'envoie du message",
+    ),
     "sentMessages": MessageLookupByLibrary.simpleMessage("Messages envoyés"),
     "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
   };

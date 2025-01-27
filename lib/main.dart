@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:geomessage/screens/createMessage/createMessage.dart';
 import 'package:geomessage/screens/home/home.dart';
 
 import 'generated/l10n.dart';
@@ -10,6 +11,7 @@ void main() {
     initialRoute: '/home',
     routes: {
       '/home': (context) => Home(),
+      '/message-creation': (context) => CreateMessage(),
     },
     locale: Locale('fr'),
     supportedLocales: [
