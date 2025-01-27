@@ -27,9 +27,8 @@ class _HomeState extends State<Home> {
   Future<void> _checkGpsStatus() async {
     bool isEnabled = await Geolocator.isLocationServiceEnabled();
     setState(() {
-      _isGpsEnabled = isEnabled;
+      _isGpsEnabled = isEnabled; //! pour les tests
     });
-    // Afficher le dialogue après la construction du widget
     if (!_isGpsEnabled) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showGpsDialog();

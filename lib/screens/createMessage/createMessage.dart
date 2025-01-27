@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geomessage/services/utils.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:geolocator/geolocator.dart'; // Assurez-vous d'importer geolocator
 
 import '../../commonWidgets/customAppBar.dart';
 import '../../generated/l10n.dart';
@@ -15,13 +17,45 @@ class CreateMessage extends StatefulWidget {
 
 class _CreateMessageState extends State<CreateMessage> {
   List<Marker> markers = [];
-  final MapController _mapController = MapController(); // Ajout du MapController
-  LatLng _center = LatLng(48.866667, 2.333333); //Paris
-  LatLng _initCenter = LatLng(48.866667, 2.333333);
+  final MapController _mapController = MapController();
+  LatLng? _center;
+  LatLng? _initCenter;
 
-  void _recenterMap() {
+  @override
+  void initState() {
+    super.initState();
+    _initLocation();
+  }
+
+  // Méthode asynchrone pour récupérer la position actuelle
+  Future<void> _initLocation() async {
+    LatLng position = await getCurrentLocation();
+
+    // Mets à jour la carte avec la position récupérée
+    setState(() {
+      _initCenter = LatLng(position.latitude, position.longitude);
+      markers = [
+        Marker(
+          point: _initCenter!,
+          child: Icon(
+            Icons.person_pin_circle_rounded,
+            color: Colors.red,
+            size: 40,
+          ),
+        ),
+      ];
+    });
+
     _mapController.moveAndRotate(
-      _initCenter,
+      _initCenter!,  // Utilise _initCenter mis à jour avec la position actuelle
+      13, // Zoom initial
+      0.0, // Rotation pour mettre le nord en haut
+    );
+  }
+
+  Future<void> _recenterMap() async {
+    _mapController.moveAndRotate(
+      _initCenter!,  // Utilise _initCenter mis à jour avec la position actuelle
       13, // Zoom initial
       0.0, // Rotation pour mettre le nord en haut
     );
@@ -29,22 +63,24 @@ class _CreateMessageState extends State<CreateMessage> {
 
   @override
   Widget build(BuildContext context) {
+    LatLng paris = LatLng(48.866667, 2.333333);
     markers.add(
-      Marker(
-          point: _initCenter,
+        Marker(
+          point: _initCenter ?? paris,
           child: Icon(
             Icons.person_pin_circle_rounded,
             color: Colors.red,
             size: 40,
           ),
-      )
+        )
     );
 
     return Scaffold(
-        appBar: CustomAppBar(title: S.of(context).title),
+      appBar: CustomAppBar(title: S.of(context).title),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
-        child: Column(
+        child:
+        Column(
           children: [
             Text(
               S.of(context).infoMessagePoint,
@@ -56,60 +92,57 @@ class _CreateMessageState extends State<CreateMessage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.80,
               child: Stack(
-                  children: [
-                    FlutterMap(
-                      mapController: _mapController,
-                      options: MapOptions(
-                        initialCenter: _center,
-                        onTap: (tapPosition, point) {
-                          // Lorsque l'utilisateur clique sur la carte, ajoutez un marqueur
-                          setState(() {
-                            _center = point;
-                            markers = [
-                              Marker(
-                                point: point,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.green,
-                                  size: 40,
-                                ),
+                children: [
+                  FlutterMap(
+                    mapController: _mapController,
+                    options: MapOptions(
+                      initialCenter: _initCenter ?? paris,
+                      onTap: (tapPosition, point) {
+                        setState(() {
+                          _center = point;
+                          markers = [
+                            Marker(
+                              point: point,
+                              child: Icon(
+                                Icons.location_on,
+                                color: Colors.green,
+                                size: 40,
                               ),
-                            ];
-                          });
-                        },
-                      ),
-                      children: [
-                        TileLayer(
-                          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                          subdomains: ['a', 'b', 'c'],
-                        ),
-                        MarkerLayer(
-                          markers: markers,
-                        ),
-
-                      ],
+                            ),
+                          ];
+                        });
+                      },
                     ),
-                    Positioned(
-                      bottom: 20, // Espace du bas
-                      right: 5,  // Espace de la droite
-                      child: ElevatedButton(
-                        onPressed: () => _recenterMap(), // Appelle la fonction de recentrage
-                        child: const Icon(Icons.my_location), // Icône de recentrage
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(), // Forme ronde comme le FloatingActionButton
-                          backgroundColor: Colors.white, // Couleur d'arrière-plan (comme le backgroundColor de FloatingActionButton)
-                          foregroundColor: Colors.green, // Couleur du premier plan (comme le foregroundColor de FloatingActionButton)
-                          padding: EdgeInsets.all(16), // Donne un padding pour augmenter la taille du bouton
-                        ),
+                    children: [
+                      TileLayer(
+                        urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        subdomains: ['a', 'b', 'c'],
+                      ),
+                      MarkerLayer(
+                        markers: markers,
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    right: 5,
+                    child: ElevatedButton(
+                      onPressed: _recenterMap,
+                      child: const Icon(Icons.my_location),
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.green,
+                        padding: EdgeInsets.all(16),
                       ),
                     ),
-
-                  ]
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }
