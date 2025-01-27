@@ -20,6 +20,7 @@ class _CreateMessageState extends State<CreateMessage> {
   final MapController _mapController = MapController();
   LatLng? _center;
   LatLng? _initCenter;
+  double mapHeightFraction = 1.0;
 
   @override
   void initState() {
@@ -82,15 +83,17 @@ class _CreateMessageState extends State<CreateMessage> {
         child:
         Column(
           children: [
-            Text(
-              S.of(context).infoMessagePoint,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.80,
+            _center == null ?
+              Text(
+                S.of(context).infoMessagePoint,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ) : Container(),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300), // Animation fluide
+              height: MediaQuery.of(context).size.height * 0.8 * mapHeightFraction,
               child: Stack(
                 children: [
                   FlutterMap(
@@ -110,6 +113,11 @@ class _CreateMessageState extends State<CreateMessage> {
                               ),
                             ),
                           ];
+
+                          setState(() {
+                            mapHeightFraction = 0.3;
+                            _mapController.move(point, 20);
+                          });
                         });
                       },
                     ),
@@ -123,20 +131,21 @@ class _CreateMessageState extends State<CreateMessage> {
                       ),
                     ],
                   ),
-                  Positioned(
-                    bottom: 20,
-                    right: 5,
-                    child: ElevatedButton(
-                      onPressed: _recenterMap,
-                      child: const Icon(Icons.my_location),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.green,
-                        padding: EdgeInsets.all(16),
+                  mapHeightFraction == 1.0 ?
+                    Positioned(
+                      bottom: 20,
+                      right: 5,
+                      child: ElevatedButton(
+                        onPressed: _recenterMap,
+                        child: const Icon(Icons.my_location),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.green,
+                          padding: EdgeInsets.all(16),
+                        ),
                       ),
-                    ),
-                  ),
+                    ) : Container(),
                 ],
               ),
             ),
