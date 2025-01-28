@@ -214,6 +214,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Erreur`
+  String get error {
+    return Intl.message('Erreur', name: 'error', desc: '', args: []);
+  }
+
+  /// `Il n'y a aucun message actif.`
+  String get noActiveMessages {
+    return Intl.message(
+      'Il n\'y a aucun message actif.',
+      name: 'noActiveMessages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `confirmation`
+  String get confirmation {
+    return Intl.message(
+      'confirmation',
+      name: 'confirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Êtes-vous sûr de vouloir supprimer ce message ?`
+  String get deleteMessageConfirmation {
+    return Intl.message(
+      'Êtes-vous sûr de vouloir supprimer ce message ?',
+      name: 'deleteMessageConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le message a été supprimé`
+  String get deletedMessage {
+    return Intl.message(
+      'Le message a été supprimé',
+      name: 'deletedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `supprimer`
+  String get delete {
+    return Intl.message('supprimer', name: 'delete', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

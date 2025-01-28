@@ -24,9 +24,18 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "activeMessage": MessageLookupByLibrary.simpleMessage("Messages actifs"),
     "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
+    "confirmation": MessageLookupByLibrary.simpleMessage("confirmation"),
     "createMessage": MessageLookupByLibrary.simpleMessage(
       "Création d\'un message",
     ),
+    "delete": MessageLookupByLibrary.simpleMessage("supprimer"),
+    "deleteMessageConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Êtes-vous sûr de vouloir supprimer ce message ?",
+    ),
+    "deletedMessage": MessageLookupByLibrary.simpleMessage(
+      "Le message a été supprimé",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("Erreur"),
     "gpsActivation": MessageLookupByLibrary.simpleMessage("Activer le GPS"),
     "gpsDisabled": MessageLookupByLibrary.simpleMessage("Gps désactivé"),
     "gpsDisabledInfo": MessageLookupByLibrary.simpleMessage(
@@ -42,6 +51,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "messageRequired": MessageLookupByLibrary.simpleMessage(
       "The message is required",
+    ),
+    "noActiveMessages": MessageLookupByLibrary.simpleMessage(
+      "Il n\'y a aucun message actif.",
     ),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("numéro de téléphone"),
     "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(

@@ -2,28 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../model/message.dart';
-import '../../services/databaseService.dart';
+import '../../generated/l10n.dart';
+import '../services/utils.dart';
 
 class CardMessage extends StatelessWidget {
-  final Message message;  // Message à afficher dans la carte
+  final Message message;
+  final VoidCallback onDelete;  // Callback pour la suppression
 
-  // Constructeur
-  const CardMessage({Key? key, required this.message}) : super(key: key);
+  const CardMessage({Key? key, required this.message, required this.onDelete}) : super(key: key);
 
-  // Fonction pour recentrer la carte sur la position du message
   Future<void> recenterMap(MapController mapController) async {
     mapController.moveAndRotate(
-      LatLng(message.latitude, message.longitude),  // Utilise la position du message
-      13, // Zoom initial
-      0.0, // Rotation pour mettre le nord en haut
+      LatLng(message.latitude, message.longitude),
+      13,
+      0.0,
     );
-  }
-
-  // Fonction pour supprimer le message de la base de données
-  Future<void> _deleteMessage(BuildContext context) async {
-    DatabaseService db = DatabaseService();
-    await db.deleteMessage(message.id!);  // Supposons que deleteMessage() supprime le message de la DB
-    Navigator.of(context).pop();  // Ferme le dialogue
   }
 
   // Fonction pour afficher la boîte de dialogue de confirmation
@@ -32,18 +25,21 @@ class CardMessage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text('Êtes-vous sûr de vouloir supprimer ce message ?'),
+          title: Text(capitalizeFirstLetter(S.of(context).confirmation)),
+          content: Text(capitalizeFirstLetter(S.of(context).deleteMessageConfirmation)),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Ferme la boîte de dialogue
               },
-              child: Text('Annuler'),
+              child: Text(capitalizeFirstLetter(S.of(context).cancel)),
             ),
             TextButton(
-              onPressed: () => _deleteMessage(context),
-              child: Text('Supprimer'),
+              onPressed: () {
+                onDelete();  // Appeler la fonction de suppression
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+              child: Text(capitalizeFirstLetter(S.of(context).delete)),
             ),
           ],
         );
@@ -67,22 +63,19 @@ class CardMessage extends StatelessWidget {
     ];
 
     return Padding(
-      padding: const EdgeInsets.all(8.0), // Espacement autour des cartes
+      padding: const EdgeInsets.all(8.0),
       child: Card(
-        elevation: 5, // Ombre sous la carte
+        elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10), // Coins arrondis
+          borderRadius: BorderRadius.circular(10),
         ),
         child: ListTile(
-          contentPadding: const EdgeInsets.all(16.0), // Padding interne
+          contentPadding: const EdgeInsets.all(16.0),
           title: Row(
             children: [
               Text(
-                message.libelle ?? '', // Affiche libelle si disponible
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+                message.libelle ?? '',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               Spacer(),
               IconButton(
@@ -112,9 +105,23 @@ class CardMessage extends StatelessWidget {
                         MarkerLayer(
                           markers: markers,
                         ),
+                        CircleLayer(
+                          circles: [
+                            CircleMarker(
+                              point: LatLng(
+                                message.latitude,
+                                message.longitude,
+                              ),
+                              color: Colors.green.withOpacity(0.3),
+                              borderStrokeWidth: 1,
+                              borderColor: Colors.green,
+                              useRadiusInMeter: true,
+                              radius: message.radius.toDouble(),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                    // Le bouton pour recentrer la carte
                     Positioned(
                       bottom: 3,
                       right: 3,
@@ -129,7 +136,6 @@ class CardMessage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Le bouton poubelle pour supprimer le message (en haut à droite)
                   ],
                 ),
               ),

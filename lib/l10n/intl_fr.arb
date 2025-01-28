@@ -18,5 +18,11 @@
     "validRadius": "Veuillez entrer un rayon valide.",
     "validate": "Valider",
     "cancel": "Annuler",
-    "messageCreated": "Le message a été créé"
+    "messageCreated": "Le message a été créé",
+    "error": "Erreur",
+    "noActiveMessages": "Il n'y a aucun message actif.",
+    "confirmation": "confirmation",
+    "deleteMessageConfirmation": "Êtes-vous sûr de vouloir supprimer ce message ?",
+    "deletedMessage": "Le message a été supprimé",
+    "delete": "supprimer"
 }
