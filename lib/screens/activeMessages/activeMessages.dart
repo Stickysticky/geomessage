@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geomessage/commonWidgets/cardMessage.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:geomessage/services/utils.dart';
 
@@ -35,11 +36,7 @@ class ActiveMessages extends StatelessWidget {
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 Message message = messages[index];
-                return ListTile(
-                  title: Text(message.message),
-                  subtitle: Text(message.libelle ?? 'No libelle'), // Affiche libelle si disponible
-                  trailing: Text(message.phoneNumber),
-                );
+                return CardMessage(message: message);
               },
             );
           }
