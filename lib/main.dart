@@ -16,7 +16,14 @@ void main() async {
   await dbService.database;  // Cette ligne initialise la base de données et crée la table si nécessaire.
 
   // Appeler le code natif pour démarrer la tâche en arrière-plan
-  startBackgroundProcess();
+  final messages = await dbService.getMessagesWithoutDate();
+
+  if(messages.isEmpty){
+    stopBackgroundProcess();
+  } else {
+    startBackgroundProcess();
+  }
+
 
   runApp(MaterialApp(
     initialRoute: '/home',
@@ -56,6 +63,14 @@ const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
 Future<void> startBackgroundProcess() async {
   try {
     await platform.invokeMethod('startBackgroundProcess');
+  } on PlatformException catch (e) {
+    print("Erreur lors de l'appel au code natif : ${e.message}");
+  }
+}
+// Fonction pour démarrer la tâche en arrière-plan via Kotlin
+Future<void> stopBackgroundProcess() async {
+  try {
+    await platform.invokeMethod('pauseBackgroundProcess');
   } on PlatformException catch (e) {
     print("Erreur lors de l'appel au code natif : ${e.message}");
   }
