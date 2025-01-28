@@ -4,8 +4,9 @@ import 'package:geomessage/screens/activeMessages/activeMessages.dart';
 import 'package:geomessage/screens/createMessage/createMessage.dart';
 import 'package:geomessage/screens/home/home.dart';
 import 'package:geomessage/services/databaseService.dart';
+import 'package:flutter/services.dart'; // Import pour le MethodChannel
 
-import 'generated/l10n.dart';// Assurez-vous que le chemin vers DatabaseHelper est correct
+import 'generated/l10n.dart'; // Assurez-vous que le chemin vers DatabaseHelper est correct
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,9 @@ void main() async {
   // Initialisation de la base de données
   final dbService = DatabaseService();
   await dbService.database;  // Cette ligne initialise la base de données et crée la table si nécessaire.
+
+  // Appeler le code natif pour démarrer la tâche en arrière-plan
+  startBackgroundProcess();
 
   runApp(MaterialApp(
     initialRoute: '/home',
@@ -43,4 +47,16 @@ void main() async {
       return Locale('fr');
     },
   ));
+}
+
+// Canal de plateforme pour appeler le code natif Kotlin
+const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
+
+// Fonction pour démarrer la tâche en arrière-plan via Kotlin
+Future<void> startBackgroundProcess() async {
+  try {
+    await platform.invokeMethod('startBackgroundProcess');
+  } on PlatformException catch (e) {
+    print("Erreur lors de l'appel au code natif : ${e.message}");
+  }
 }
