@@ -90,4 +90,14 @@ class DatabaseService {
     final path = join(databasePath, 'message.db');
     await deleteDatabase(path);
   }
+
+  Future<void> deleteMessage(int id) async {
+    final db = await _initDatabase();
+    await db.delete(
+      'message',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
 }

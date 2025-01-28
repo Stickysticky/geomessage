@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../model/message.dart';
+import '../../services/databaseService.dart';
 
 class CardMessage extends StatelessWidget {
   final Message message;  // Message à afficher dans la carte
@@ -15,6 +16,38 @@ class CardMessage extends StatelessWidget {
       LatLng(message.latitude, message.longitude),  // Utilise la position du message
       13, // Zoom initial
       0.0, // Rotation pour mettre le nord en haut
+    );
+  }
+
+  // Fonction pour supprimer le message de la base de données
+  Future<void> _deleteMessage(BuildContext context) async {
+    DatabaseService db = DatabaseService();
+    await db.deleteMessage(message.id!);  // Supposons que deleteMessage() supprime le message de la DB
+    Navigator.of(context).pop();  // Ferme le dialogue
+  }
+
+  // Fonction pour afficher la boîte de dialogue de confirmation
+  Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: Text('Êtes-vous sûr de vouloir supprimer ce message ?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+              child: Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () => _deleteMessage(context),
+              child: Text('Supprimer'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -42,12 +75,21 @@ class CardMessage extends StatelessWidget {
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.all(16.0), // Padding interne
-          title: Text(
-            message.libelle ?? '', // Affiche libelle si disponible
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+          title: Row(
+            children: [
+              Text(
+                message.libelle ?? '', // Affiche libelle si disponible
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.delete_forever, color: Colors.red, size: 30),
+                onPressed: () => _showDeleteConfirmationDialog(context),
+              ),
+            ],
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,6 +129,7 @@ class CardMessage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // Le bouton poubelle pour supprimer le message (en haut à droite)
                   ],
                 ),
               ),
