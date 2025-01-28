@@ -70,7 +70,7 @@ Future<void> startBackgroundProcess() async {
 // Fonction pour démarrer la tâche en arrière-plan via Kotlin
 Future<void> stopBackgroundProcess() async {
   try {
-    await platform.invokeMethod('pauseBackgroundProcess');
+    await platform.invokeMethod('stopBackgroundProcess');
   } on PlatformException catch (e) {
     print("Erreur lors de l'appel au code natif : ${e.message}");
   }

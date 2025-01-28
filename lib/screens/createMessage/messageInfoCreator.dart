@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:geomessage/services/utils.dart';
 import 'package:latlong2/latlong.dart';
@@ -65,6 +66,10 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(capitalizeFirstLetter(S.of(context).messageCreated))),
       );
+
+      const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
+      await platform.invokeMethod('startBackgroundProcess');
+
       Navigator.pushNamed(context, '/home');
     }
   }

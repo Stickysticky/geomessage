@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geomessage/commonWidgets/cardMessage.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:geomessage/services/utils.dart';
@@ -37,6 +38,13 @@ class _ActiveMessagesState extends State<ActiveMessages> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedMessage))),
     );
+
+    const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
+    final messages = await DatabaseService().getMessagesWithoutDate();
+    if (messages.isEmpty) {
+      await platform.invokeMethod('stopBackgroundProcess');
+    }
+
   }
 
   @override
