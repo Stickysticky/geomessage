@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geomessage/screens/createMessage/messageInfoCreator.dart';
 import 'package:geomessage/services/utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart'; // Assurez-vous d'importer geolocator
 
 import '../../commonWidgets/customAppBar.dart';
 import '../../generated/l10n.dart';
+import '../../model/message.dart';
 
 class CreateMessage extends StatefulWidget {
   const CreateMessage({super.key});
@@ -21,6 +23,7 @@ class _CreateMessageState extends State<CreateMessage> {
   LatLng? _center;
   LatLng? _initCenter;
   double mapHeightFraction = 1.0;
+  Message? _message;
 
   @override
   void initState() {
@@ -60,6 +63,13 @@ class _CreateMessageState extends State<CreateMessage> {
       13, // Zoom initial
       0.0, // Rotation pour mettre le nord en haut
     );
+  }
+
+  void _updateVisibility(bool isVisible) {
+    setState(() {
+      mapHeightFraction = mapHeightFraction == 1.0 ? 0.3 : 1.0;
+      _mapController.move(LatLng(_center!.latitude, _center!.longitude), 13.0);
+    });
   }
 
   @override
@@ -102,6 +112,11 @@ class _CreateMessageState extends State<CreateMessage> {
                       initialCenter: _initCenter ?? paris,
                       onTap: (tapPosition, point) {
                         setState(() {
+                          _message = Message(
+                              latitude: point.latitude,
+                              longitude: point.longitude,
+                          );
+
                           _center = point;
                           markers = [
                             Marker(
@@ -149,6 +164,18 @@ class _CreateMessageState extends State<CreateMessage> {
                 ],
               ),
             ),
+            Visibility(
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
+                  child: MessageInfoCreator(
+                      message: _message,
+                      isVisible: mapHeightFraction != 1.0,
+                      onVisibilityChanged: _updateVisibility
+                  )
+              ),
+              visible: mapHeightFraction != 1.0,
+
+            )
           ],
         ),
       ),
