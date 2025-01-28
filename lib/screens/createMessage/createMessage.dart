@@ -112,6 +112,38 @@ class _CreateMessageState extends State<CreateMessage> {
 
     return Scaffold(
       appBar: CustomAppBar(title: S.of(context).title),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: mapHeightFraction == 1.0 ?
+        Column(
+          children: [
+            _center != null ?
+                AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: IconButton(
+                onPressed: () {
+
+                },
+                icon: const Icon(Icons.check),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                color: Colors.white,
+                iconSize: 40,
+              ),
+            ) : Container(),
+            ElevatedButton(
+              onPressed: _recenterMap,
+              child: const Icon(Icons.my_location),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.green,
+                padding: EdgeInsets.all(16),
+              ),
+            ),
+          ],
+        ) : null,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
         child:
@@ -171,20 +203,43 @@ class _CreateMessageState extends State<CreateMessage> {
                     ],
                   ),
                   mapHeightFraction == 1.0 ?
-                    Positioned(
-                      bottom: 20,
-                      right: 5,
-                      child: ElevatedButton(
-                        onPressed: _recenterMap,
-                        child: const Icon(Icons.my_location),
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          padding: EdgeInsets.all(16),
+                  Positioned(
+                    right: 5,
+                    bottom: 20,
+                    child: Column(
+                      children: [
+                        _center != null ?
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                mapHeightFraction = 0.3;
+                                _mapController.move(_center!, 20);
+                              });
+                            },
+                            icon: const Icon(Icons.check),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.green,
+                            ),
+                            color: Colors.white,
+                            iconSize: 40,
+                          ),
+                        ) : Container(),
+                        ElevatedButton(
+                          onPressed: _recenterMap,
+                          child: const Icon(Icons.my_location),
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.green,
+                            padding: EdgeInsets.all(16),
+                          ),
                         ),
-                      ),
-                    ) : Container(),
+                      ],
+                    ),
+                  ) : Container(),
                 ],
               ),
             ),
