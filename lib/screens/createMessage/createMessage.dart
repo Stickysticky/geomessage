@@ -24,6 +24,8 @@ class _CreateMessageState extends State<CreateMessage> {
   LatLng? _initCenter;
   double mapHeightFraction = 1.0;
   Message? _message;
+  LatLng? _userLocation;
+
 
   @override
   void initState() {
@@ -37,10 +39,10 @@ class _CreateMessageState extends State<CreateMessage> {
 
     // Mets à jour la carte avec la position récupérée
     setState(() {
-      _initCenter = LatLng(position.latitude, position.longitude);
+      _userLocation = position;
       markers = [
         Marker(
-          point: _initCenter!,
+          point: LatLng(position.latitude, position.longitude),
           child: Icon(
             Icons.person_pin_circle_rounded,
             color: Colors.red,
@@ -48,6 +50,28 @@ class _CreateMessageState extends State<CreateMessage> {
           ),
         ),
       ];
+
+      if(ModalRoute.of(context)?.settings.arguments != null){
+        _message = ModalRoute.of(context)?.settings.arguments as Message;
+        _initCenter = LatLng(_message!.latitude, _message!.longitude);
+        _center = _initCenter;
+
+        markers.add(
+          Marker(
+            point: LatLng(_center!.latitude, _center!.longitude),
+            child: Icon(
+              Icons.location_on,
+              color: Colors.green,
+              size: 40,
+            ),
+          ),
+        );
+
+      } else {
+        _initCenter = LatLng(position.latitude, position.longitude);
+      }
+
+
     });
 
     _mapController.moveAndRotate(
@@ -77,7 +101,7 @@ class _CreateMessageState extends State<CreateMessage> {
     LatLng paris = LatLng(48.866667, 2.333333);
     markers.add(
         Marker(
-          point: _initCenter ?? paris,
+          point: _userLocation ?? paris,
           child: Icon(
             Icons.person_pin_circle_rounded,
             color: Colors.red,

@@ -79,6 +79,10 @@ class CardMessage extends StatelessWidget {
               ),
               Spacer(),
               IconButton(
+                icon: Icon(Icons.edit, color: Colors.orange, size: 30),
+                onPressed: () => Navigator.pushNamed(context, '/message-creation', arguments: message),
+              ),
+              IconButton(
                 icon: Icon(Icons.delete_forever, color: Colors.red, size: 30),
                 onPressed: () => _showDeleteConfirmationDialog(context),
               ),
