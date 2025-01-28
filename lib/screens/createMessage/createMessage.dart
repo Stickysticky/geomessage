@@ -168,10 +168,16 @@ class _CreateMessageState extends State<CreateMessage> {
                       initialCenter: _initCenter ?? paris,
                       onTap: (tapPosition, point) {
                         setState(() {
-                          _message = Message(
+                          if(_message == null){
+                            _message = Message(
                               latitude: point.latitude,
                               longitude: point.longitude,
-                          );
+                            );
+                          } else {
+                            _message!.latitude = point.latitude;
+                            _message!.longitude = point.longitude;
+                          }
+
 
                           _center = point;
                           markers = [

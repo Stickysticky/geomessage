@@ -38,6 +38,12 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
   @override
   void initState() {
     super.initState();
+    if(widget._message is Message){
+      _libelle = widget._message!.libelle;
+      _message = widget._message!.message;
+      _phoneNumber = widget._message!.phoneNumber;
+      _radius = widget._message!.radius;
+    }
     _isVisible = widget._isVisible; // Initialize from parent
   }
 
