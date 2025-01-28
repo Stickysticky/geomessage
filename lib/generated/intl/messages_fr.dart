@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "activeMessage": MessageLookupByLibrary.simpleMessage("Messages actifs"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
     "createMessage": MessageLookupByLibrary.simpleMessage(
       "Création d\'un message",
     ),
@@ -34,7 +35,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "infoMessagePoint": MessageLookupByLibrary.simpleMessage(
       "Veuillez ajouter la localisation pour l\'envoie du message",
     ),
+    "libelle": MessageLookupByLibrary.simpleMessage("Libellé"),
+    "message": MessageLookupByLibrary.simpleMessage("message"),
+    "messageCreated": MessageLookupByLibrary.simpleMessage(
+      "Le message a été créé",
+    ),
+    "messageRequired": MessageLookupByLibrary.simpleMessage(
+      "The message is required",
+    ),
+    "phoneNumber": MessageLookupByLibrary.simpleMessage("numéro de téléphone"),
+    "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
+      "Numéro de téléphone requis.",
+    ),
+    "radiusRequired": MessageLookupByLibrary.simpleMessage(
+      "Le rayon est requis.",
+    ),
+    "rayon": MessageLookupByLibrary.simpleMessage("radius"),
     "sentMessages": MessageLookupByLibrary.simpleMessage("Messages envoyés"),
     "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
+    "validRadius": MessageLookupByLibrary.simpleMessage(
+      "Veuillez entrer un rayon valide.",
+    ),
+    "validate": MessageLookupByLibrary.simpleMessage("Valider"),
   };
 }

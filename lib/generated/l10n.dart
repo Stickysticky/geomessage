@@ -129,6 +129,91 @@ class S {
       args: [],
     );
   }
+
+  /// `message`
+  String get message {
+    return Intl.message('message', name: 'message', desc: '', args: []);
+  }
+
+  /// `numéro de téléphone`
+  String get phoneNumber {
+    return Intl.message(
+      'numéro de téléphone',
+      name: 'phoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Libellé`
+  String get libelle {
+    return Intl.message('Libellé', name: 'libelle', desc: '', args: []);
+  }
+
+  /// `The message is required`
+  String get messageRequired {
+    return Intl.message(
+      'The message is required',
+      name: 'messageRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Numéro de téléphone requis.`
+  String get phoneNumberRequired {
+    return Intl.message(
+      'Numéro de téléphone requis.',
+      name: 'phoneNumberRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `radius`
+  String get rayon {
+    return Intl.message('radius', name: 'rayon', desc: '', args: []);
+  }
+
+  /// `Le rayon est requis.`
+  String get radiusRequired {
+    return Intl.message(
+      'Le rayon est requis.',
+      name: 'radiusRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Veuillez entrer un rayon valide.`
+  String get validRadius {
+    return Intl.message(
+      'Veuillez entrer un rayon valide.',
+      name: 'validRadius',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Valider`
+  String get validate {
+    return Intl.message('Valider', name: 'validate', desc: '', args: []);
+  }
+
+  /// `Annuler`
+  String get cancel {
+    return Intl.message('Annuler', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `Le message a été créé`
+  String get messageCreated {
+    return Intl.message(
+      'Le message a été créé',
+      name: 'messageCreated',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

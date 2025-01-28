@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             SizedBox(height: 10),
             MenuCard(text: capitalizeFirstLetter(S.of(context).createMessage), iconData: Icons.send, route: '/message-creation'),
-            MenuCard(text: capitalizeFirstLetter(S.of(context).activeMessage), iconData: Icons.message, route: '/home'),
+            MenuCard(text: capitalizeFirstLetter(S.of(context).activeMessage), iconData: Icons.message, route: '/active-messages'),
             MenuCard(text: capitalizeFirstLetter(S.of(context).sentMessages), iconData: Icons.message_outlined, route: '/home'),
           ]
       ),

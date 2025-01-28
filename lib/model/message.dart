@@ -61,10 +61,12 @@ class Message {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'libelle': libelle,
       'message': message,
       'latitude': latitude,
       'longitude': longitude,
       'phoneNumber': phoneNumber,
+      'radius': radius,
       'date': date,
     };
   }
@@ -73,11 +75,13 @@ class Message {
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
       id: map['id'],
+      libelle: map['libelle'],
       message: map['message'],
       latitude: map['latitude'],
       longitude: map['longitude'],
       phoneNumber: map['phoneNumber'],
-      date: DateTime.parse(map['date']),
+      radius: map['radius'],
+      date: map['date'] == null ? null : DateTime.parse(map['date']),
     );
   }
 

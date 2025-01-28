@@ -103,7 +103,7 @@ class _CreateMessageState extends State<CreateMessage> {
               ) : Container(),
             AnimatedContainer(
               duration: const Duration(milliseconds: 300), // Animation fluide
-              height: MediaQuery.of(context).size.height * 0.8 * mapHeightFraction,
+              height: MediaQuery.of(context).size.height * (_center == null ? 0.8 : 0.9) * mapHeightFraction,
               child: Stack(
                 children: [
                   FlutterMap(

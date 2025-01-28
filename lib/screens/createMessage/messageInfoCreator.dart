@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geomessage/services/databaseService.dart';
+import 'package:geomessage/services/utils.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../generated/l10n.dart';
 import '../../model/message.dart';
 
 class MessageInfoCreator extends StatefulWidget {
@@ -25,6 +28,7 @@ class MessageInfoCreator extends StatefulWidget {
 
 class _MessageInfoCreatorState extends State<MessageInfoCreator> {
   final _formKey = GlobalKey<FormState>();
+  final databaseService = DatabaseService();
   late bool _isVisible;
   String? _libelle;
   String _message = '';
@@ -38,7 +42,7 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
   }
 
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save(); // Cette ligne appelle les fonctions onSaved des champs
       setState(() {
@@ -51,7 +55,11 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
         widget._message!.radius = _radius;
       });
 
-      print(widget._message);
+      databaseService.insertMessage(widget._message!);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(capitalizeFirstLetter(S.of(context).messageCreated))),
+      );
+      Navigator.pushNamed(context, '/home');
     }
   }
 
@@ -77,7 +85,7 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
             TextFormField(
               initialValue: _libelle ?? '',
               decoration: InputDecoration(
-                labelText: 'Libellé',
+                labelText: capitalizeFirstLetter(S.of(context).libelle),
                 border: OutlineInputBorder(),
               ),
               onSaved: (value) => _libelle = value,
@@ -88,11 +96,11 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
             TextFormField(
               initialValue: _message,
               decoration: InputDecoration(
-                labelText: 'Message',
+                labelText: capitalizeFirstLetter(S.of(context).message),
                 border: OutlineInputBorder(),
               ),
               maxLines: 5,
-              validator: (value) => (value == null || value.isEmpty) ? 'Le message est requis.' : null,
+              validator: (value) => (value == null || value.isEmpty) ? capitalizeFirstLetter(S.of(context).messageRequired) : null,
               onSaved: (value) => _message = value!,
             ),
             const SizedBox(height: 16),
@@ -101,10 +109,10 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
             TextFormField(
               initialValue: _phoneNumber,
               decoration: InputDecoration(
-                labelText: 'Numéro de téléphone',
+                labelText: capitalizeFirstLetter(S.of(context).phoneNumber),
                 border: OutlineInputBorder(),
               ),
-              validator: (value) => (value == null || value.isEmpty) ? 'Numéro de téléphone requis.' : null,
+              validator: (value) => (value == null || value.isEmpty) ? capitalizeFirstLetter(S.of(context).phoneNumberRequired) : null,
               onSaved: (value) => _phoneNumber = value!,
             ),
             const SizedBox(height: 16),
@@ -113,14 +121,14 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
             TextFormField(
               initialValue: _radius.toString(),
               decoration: InputDecoration(
-                labelText: 'Rayon',
+                labelText: capitalizeFirstLetter(S.of(context).rayon),
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.number,
               validator: (value) {
-                if (value == null || value.isEmpty) return 'Le rayon est requis.';
+                if (value == null || value.isEmpty) return capitalizeFirstLetter(S.of(context).radiusRequired);
                 final parsed = double.tryParse(value);
-                if (parsed == null || parsed <= 0) return 'Veuillez entrer un rayon valide.';
+                if (parsed == null || parsed <= 0) return capitalizeFirstLetter(S.of(context).validRadius);
                 return null;
               },
               onSaved: (value) => _radius = double.parse(value!),
@@ -133,12 +141,12 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
               children: [
                 ElevatedButton(
                   onPressed: _submitForm,
-                  child: const Text('Valider'),
+                  child: Text(capitalizeFirstLetter(S.of(context).validate)),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: _toggleVisibility,
-                  child: const Text('Annuler'),
+                  child: Text(capitalizeFirstLetter(S.of(context).cancel)),
                 ),
               ],
             ),

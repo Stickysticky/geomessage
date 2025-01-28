@@ -7,5 +7,16 @@
     "infoMessagePoint": "Veuillez ajouter la localisation pour l'envoie du message",
     "gpsDisabled": "Gps désactivé",
     "gpsDisabledInfo": "Pour bénéficier de toutes les fonctionnalités de l'application, veuillez activer le GPS",
-    "gpsActivation": "Activer le GPS"
+    "gpsActivation": "Activer le GPS",
+    "message": "message",
+    "phoneNumber": "numéro de téléphone",
+    "libelle": "Libellé",
+    "messageRequired": "The message is required",
+    "phoneNumberRequired": "Numéro de téléphone requis.",
+    "rayon": "radius",
+    "radiusRequired": "Le rayon est requis.",
+    "validRadius": "Veuillez entrer un rayon valide.",
+    "validate": "Valider",
+    "cancel": "Annuler",
+    "messageCreated": "Le message a été créé"
 }
