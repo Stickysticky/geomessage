@@ -41,7 +41,7 @@ class MessageDatabase {
   // Ajouter un message
   Future<void> addMessage(Message message) async {
     final db = await database;
-    await db.insert('messages', message.toMap(),
+    await db.insert('message', message.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

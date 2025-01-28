@@ -34,33 +34,27 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
   @override
   void initState() {
     super.initState();
-    /*
-    _libelle = widget._message!.libelle;
-    _message = widget._message!.message;
-    _latitude = widget._message!.latitude;
-    _longitude = widget._message!.longitude;
-    _phoneNumber = widget._message!.phoneNumber;
-    _radius = widget._message!.radius;*/
     _isVisible = widget._isVisible; // Initialize from parent
   }
 
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      print(widget._message);
-      // Création de l'objet Message à partir des données du formulaire
-      /*final message = Message(
-        libelle: _libelleController.text.isNotEmpty ? _libelleController.text : null,
-        message: _messageController.text,
-        latitude: double.parse(_latitudeController.text),
-        longitude: double.parse(_longitudeController.text),
-        phoneNumber: _phoneNumberController.text.isNotEmpty ? _phoneNumberController.text : null,
-        radius: double.tryParse(_radiusController.text) ?? 10.0,
-      );*/
+      _formKey.currentState!.save(); // Cette ligne appelle les fonctions onSaved des champs
+      setState(() {
+        if (_libelle != null && _libelle!.isNotEmpty) {
+          widget._message!.libelle = _libelle; // Assurez-vous de l'assignation ici
+        }
 
-      //widget.onSubmit(message); // Passe l'objet Message au callback
+        widget._message!.message = _message;
+        widget._message!.phoneNumber = _phoneNumber;
+        widget._message!.radius = _radius;
+      });
+
+      print(widget._message);
     }
   }
+
 
 
   void _toggleVisibility() {

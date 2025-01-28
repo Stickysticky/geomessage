@@ -5,6 +5,11 @@ class Message {
   String? _libelle;
   String _message;
   double _latitude;
+
+  set message(String value) {
+    _message = value;
+  }
+
   double _longitude;
   String _phoneNumber;
   DateTime? _date;
@@ -74,5 +79,21 @@ class Message {
       phoneNumber: map['phoneNumber'],
       date: DateTime.parse(map['date']),
     );
+  }
+
+  set latitude(double value) {
+    _latitude = value;
+  }
+
+  set longitude(double value) {
+    _longitude = value;
+  }
+
+  set phoneNumber(String value) {
+    _phoneNumber = value;
+  }
+
+  set radius(double value) {
+    _radius = value;
   }
 }
