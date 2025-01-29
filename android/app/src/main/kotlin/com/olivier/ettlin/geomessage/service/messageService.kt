@@ -7,6 +7,7 @@ import com.olivier.ettlin.geomessage.service.LocalisationService
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.embedding.engine.FlutterEngine
 import com.olivier.ettlin.geomessage.service.DatabaseService
+import kotlinx.coroutines.Job
 
 class MessageService(private val context: Context) {
 
@@ -16,28 +17,28 @@ class MessageService(private val context: Context) {
     private val localisationService = LocalisationService(context)
 
     // Méthode pour gérer les messages sans date
-    fun handleMessagesWithoutDates() {
-        if(localisationService.isLocationServiceEnabled()){
+    fun handleMessagesWithoutDates(job: Job?) {
+        if (localisationService.isLocationServiceEnabled()) {
             val messages = db.getMessagesWithoutDate() // Assurez-vous que cette méthode retourne une liste de messages
-            for (message in messages) {
-                Log.d("MessageService", "Libellé du message: ${message.libelle}")
-                localisationService.checkCurrentLocationInRadius(message) { inRadius ->
-                    if (inRadius) {
-                        Log.d("MessageService", "Message dans le rayon")
-                    } else {
-                        Log.d("MessageService", "Message hors du rayon")
+            if (messages.isEmpty()) {
+                if (job?.isActive == true) {
+                    job?.cancel() // Annuler la coroutine
+                    println("Tâche arrêtée car aucun message n'est disponible.")
+                }
+            } else {
+                // Si des messages sont présents, on les traite
+                for (message in messages) {
+                    Log.d("MessageService", "Libellé du message: ${message.libelle}")
+                    localisationService.checkCurrentLocationInRadius(message) { inRadius ->
+                        if (inRadius) {
+                            Log.d("MessageService", "Message dans le rayon")
+                            db.deleteMessage(message.id!!) // Suppression du message
+                        } else {
+                            Log.d("MessageService", "Message hors du rayon")
+                        }
                     }
                 }
             }
         }
     }
-
-    // Méthode pour démarrer le processus en arrière-plan
-    /*fun startBackgroundProcess() {
-        try {
-            backgroundChannel.invokeMethod("startBackgroundProcess", null)
-        } catch (e: Exception) {
-            Log.e("MessageService", "Erreur lors de l'appel de startBackgroundProcess: ${e.message}")
-        }
-    }*/
 }

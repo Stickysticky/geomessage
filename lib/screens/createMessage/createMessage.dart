@@ -149,122 +149,124 @@ class _CreateMessageState extends State<CreateMessage> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
         child:
-        Column(
-          children: [
-            _center == null ?
-              Text(
-                S.of(context).infoMessagePoint,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ) : Container(),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300), // Animation fluide
-              height: MediaQuery.of(context).size.height * (_center == null ? 0.8 : 0.9) * mapHeightFraction,
-              child: Stack(
-                children: [
-                  FlutterMap(
-                    mapController: _mapController,
-                    options: MapOptions(
-                      initialCenter: _initCenter ?? paris,
-                      onTap: (tapPosition, point) {
-                        setState(() {
-                          if(_message == null){
-                            _message = Message(
-                              latitude: point.latitude,
-                              longitude: point.longitude,
-                            );
-                          } else {
-                            _message!.latitude = point.latitude;
-                            _message!.longitude = point.longitude;
-                          }
-
-
-                          _center = point;
-                          markers = [
-                            Marker(
-                              point: point,
-                              child: Icon(
-                                Icons.location_on,
-                                color: Colors.green,
-                                size: 40,
-                              ),
-                            ),
-                          ];
-
-                          setState(() {
-                            mapHeightFraction = 0.3;
-                            _mapController.move(point, 20);
-                          });
-                        });
-                      },
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        subdomains: ['a', 'b', 'c'],
-                      ),
-                      MarkerLayer(
-                        markers: markers,
-                      ),
-                      Scalebar()
-                    ],
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              _center == null ?
+                Text(
+                  S.of(context).infoMessagePoint,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  mapHeightFraction == 1.0 ?
-                  Positioned(
-                    right: 5,
-                    bottom: 20,
-                    child: Column(
+                ) : Container(),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300), // Animation fluide
+                height: MediaQuery.of(context).size.height * (_center == null ? 0.8 : 0.9) * mapHeightFraction,
+                child: Stack(
+                  children: [
+                    FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        initialCenter: _initCenter ?? paris,
+                        onTap: (tapPosition, point) {
+                          setState(() {
+                            if(_message == null){
+                              _message = Message(
+                                latitude: point.latitude,
+                                longitude: point.longitude,
+                              );
+                            } else {
+                              _message!.latitude = point.latitude;
+                              _message!.longitude = point.longitude;
+                            }
+
+
+                            _center = point;
+                            markers = [
+                              Marker(
+                                point: point,
+                                child: Icon(
+                                  Icons.location_on,
+                                  color: Colors.green,
+                                  size: 40,
+                                ),
+                              ),
+                            ];
+
+                            setState(() {
+                              mapHeightFraction = 0.3;
+                              _mapController.move(point, 20);
+                            });
+                          });
+                        },
+                      ),
                       children: [
-                        _center != null ?
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                mapHeightFraction = 0.3;
-                                _mapController.move(_center!, 20);
-                              });
-                            },
-                            icon: const Icon(Icons.check),
-                            style: IconButton.styleFrom(
-                              backgroundColor: Colors.green,
-                            ),
-                            color: Colors.white,
-                            iconSize: 40,
-                          ),
-                        ) : Container(),
-                        ElevatedButton(
-                          onPressed: _recenterMap,
-                          child: const Icon(Icons.my_location),
-                          style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(),
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.green,
-                            padding: EdgeInsets.all(16),
-                          ),
+                        TileLayer(
+                          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          subdomains: ['a', 'b', 'c'],
                         ),
+                        MarkerLayer(
+                          markers: markers,
+                        ),
+                        Scalebar()
                       ],
                     ),
-                  ) : Container(),
-                ],
+                    mapHeightFraction == 1.0 ?
+                    Positioned(
+                      right: 5,
+                      bottom: 20,
+                      child: Column(
+                        children: [
+                          _center != null ?
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  mapHeightFraction = 0.3;
+                                  _mapController.move(_center!, 20);
+                                });
+                              },
+                              icon: const Icon(Icons.check),
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.green,
+                              ),
+                              color: Colors.white,
+                              iconSize: 40,
+                            ),
+                          ) : Container(),
+                          ElevatedButton(
+                            onPressed: _recenterMap,
+                            child: const Icon(Icons.my_location),
+                            style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.green,
+                              padding: EdgeInsets.all(16),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ) : Container(),
+                  ],
+                ),
               ),
-            ),
-            Visibility(
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
-                  child: MessageInfoCreator(
-                      message: _message,
-                      isVisible: mapHeightFraction != 1.0,
-                      onVisibilityChanged: _updateVisibility
-                  )
-              ),
-              visible: mapHeightFraction != 1.0,
+              Visibility(
+                child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
+                    child: MessageInfoCreator(
+                        message: _message,
+                        isVisible: mapHeightFraction != 1.0,
+                        onVisibilityChanged: _updateVisibility
+                    )
+                ),
+                visible: mapHeightFraction != 1.0,
 
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -63,7 +63,7 @@ class MainActivity : FlutterActivity() {
 
                     // Appel de la fonction Flutter
                     if (isGPSEnabled()) {
-                        messageService.handleMessagesWithoutDates()
+                        messageService.handleMessagesWithoutDates(job)
                         println("Tâche exécutée en arrière-plan à : ${System.currentTimeMillis()}")
                     }
 

@@ -75,7 +75,8 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
       });*/
       MessageService.startBackgroundProcess();
 
-      Navigator.pushNamed(context, '/home');
+      //Navigator.pushNamed(context, '/home');
+      Navigator.pop(context);
     }
   }
 
