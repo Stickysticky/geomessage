@@ -67,7 +67,7 @@ class MainActivity : FlutterActivity() {
                         println("Tâche exécutée en arrière-plan à : ${System.currentTimeMillis()}")
                     }
 
-                    delay(10000L) // Répéter toutes les 10 secondes
+                    delay(5000L) // Répéter toutes les 5 secondes
                 }
             } catch (e: CancellationException) {
                 println("Le processus a été annulé.")

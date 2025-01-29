@@ -2,8 +2,6 @@ package com.olivier.ettlin.geomessage.service
 
 import android.content.Context
 import android.location.Location
-import android.os.Looper
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import com.olivier.ettlin.geomessage.model.Message
@@ -22,67 +20,54 @@ class LocalisationService(private val context: Context) {
     }
 
     // Fonction pour obtenir la localisation actuelle
-    fun getCurrentLocation(callback: (Location) -> Unit) {
+    fun getCurrentLocation(callback: (Location?) -> Unit) {
         if (!isLocationServiceEnabled()) {
-            Toast.makeText(context, "Le service de localisation est désactivé.", Toast.LENGTH_SHORT).show()
+            println("GPS désactivé")
+            callback(null)
             return
         }
 
-        // Vérification des permissions de localisation
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Demander les permissions si elles ne sont pas accordées
+            println("Permissions de localisation non accordées")
+            callback(null)
             return
         }
 
-        // Récupérer la position actuelle
-        fusedLocationClient.lastLocation.addOnCompleteListener { task: Task<Location?> ->
-            val location = task.result
-            if (location != null) {
-                callback(location)
-            } else {
-                fusedLocationClient.requestLocationUpdates(
-                    LocationRequest.create().apply {
-                        interval = 10000
-                        fastestInterval = 5000
-                        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                    },
-                    object : LocationCallback() {
-                        override fun onLocationResult(locationResult: LocationResult) { // Utilisez directement LocationResult ici
-                            if (locationResult.locations.isNotEmpty()) {
-                                callback(locationResult.locations[0])
-                                fusedLocationClient.removeLocationUpdates(this)
-                            }
-                        }
-                    },
-                    Looper.getMainLooper()
-                )
+        // Utilisation de getCurrentLocation pour une récupération instantanée
+        fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                callback(location) // Passe directement la localisation (null si indisponible)
             }
-        }
+            .addOnFailureListener { exception ->
+                println("Erreur lors de la récupération de la localisation : ${exception.message}")
+                callback(null)
+            }
     }
 
-    // Vérifie si la localisation actuelle est dans le rayon du message
     fun checkCurrentLocationInRadius(message: Message, callback: (Boolean) -> Unit) {
         if (!isLocationServiceEnabled()) {
-            //Toast.makeText(context, "GPS désactivé", Toast.LENGTH_SHORT).show()
-            println("gps désactivé")
+            println("GPS désactivé")
             callback(false)
             return
         }
 
         getCurrentLocation { location ->
-            val distance = FloatArray(1)
-            Location.distanceBetween(
-                location.latitude,
-                location.longitude,
-                message.latitude,
-                message.longitude,
-                distance
-            )
+            location?.let {
+                val distance = FloatArray(1)
+                Location.distanceBetween(
+                    it.latitude, it.longitude,
+                    message.latitude, message.longitude,
+                    distance
+                )
 
-            val isInRadius = distance[0] <= message.radius
-            println("Distance actuelle : ${distance[0]} mètres, Rayon autorisé : ${message.radius} mètres")
-            callback(isInRadius)
+                val isInRadius = distance[0] <= message.radius
+                println("Distance actuelle : ${distance[0]} mètres, Rayon autorisé : ${message.radius} mètres")
+                callback(isInRadius)
+            } ?: run {
+                println("Impossible d'obtenir la localisation actuelle.")
+                callback(false)
+            }
         }
     }
 }

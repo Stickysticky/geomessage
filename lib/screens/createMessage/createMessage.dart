@@ -209,7 +209,23 @@ class _CreateMessageState extends State<CreateMessage> {
                         MarkerLayer(
                           markers: markers,
                         ),
-                        Scalebar()
+                        Scalebar(),
+                        _message != null ?
+                          CircleLayer(
+                            circles: [
+                              CircleMarker(
+                                point: LatLng(
+                                  _message!.latitude,
+                                  _message!.longitude,
+                                ),
+                                color: Colors.green.withOpacity(0.3),
+                                borderStrokeWidth: 1,
+                                borderColor: Colors.green,
+                                useRadiusInMeter: true,
+                                radius: _message!.radius.toDouble(),
+                              ),
+                            ],
+                          ) : Container(),
                       ],
                     ),
                     mapHeightFraction == 1.0 ?
