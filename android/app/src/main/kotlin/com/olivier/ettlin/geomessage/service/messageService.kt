@@ -14,6 +14,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.embedding.engine.FlutterEngine
 import com.olivier.ettlin.geomessage.service.DatabaseService
 import kotlinx.coroutines.Job
+import android.telephony.SmsManager
+
 
 class MessageService(private val context: Context) {
 
@@ -56,11 +58,9 @@ class MessageService(private val context: Context) {
                     if (inRadius) {
                         Log.d("MessageService", "Message dans le rayon")
 
-                        // Envoyer la notification avec son
+                        sendSms(message.phoneNumber, message.message)
                         sendNotification(message)
 
-                        // Suppression du message après notification
-                        //db.deleteMessage(message.id!!)
                         db.updateMessageWithCurrentDate(message);
                     } else {
                         Log.d("MessageService", "Message hors du rayon")
@@ -75,7 +75,16 @@ class MessageService(private val context: Context) {
         }
     }
 
-    // Méthode pour envoyer la notification avec sonnerie
+    private fun sendSms(phoneNumber: String, messageText: String) {
+        val smsManager = SmsManager.getDefault()
+        try {
+            smsManager.sendTextMessage(phoneNumber, null, messageText, null, null)
+            Log.d("MessageService", "SMS envoyé à $phoneNumber: $messageText")
+        } catch (e: Exception) {
+            Log.e("MessageService", "Erreur lors de l'envoi du SMS: ${e.message}")
+        }
+    }
+
     private fun sendNotification(message: Message) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val soundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

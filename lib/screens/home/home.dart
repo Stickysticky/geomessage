@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart'; // Import pour gérer les permissions
 import 'package:geomessage/screens/home/menuCard.dart';
 import 'package:geomessage/services/utils.dart';
 
@@ -20,7 +21,23 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _checkPermissions(); // Vérifie les permissions dès le démarrage
     _checkGpsStatus();
+  }
+
+  // Vérifie les permissions de SMS et GPS
+  Future<void> _checkPermissions() async {
+    // Vérification des permissions de localisation
+    PermissionStatus locationStatus = await Permission.location.status;
+    if (!locationStatus.isGranted) {
+      await Permission.location.request();
+    }
+
+    // Vérification des permissions d'envoi de SMS
+    PermissionStatus smsStatus = await Permission.sms.status;
+    if (!smsStatus.isGranted) {
+      await Permission.sms.request();
+    }
   }
 
   // Vérifie si le GPS est activé
