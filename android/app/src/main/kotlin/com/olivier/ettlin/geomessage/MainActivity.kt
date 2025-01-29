@@ -9,6 +9,7 @@ import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
 import android.content.Context
 import android.location.LocationManager
+import com.olivier.ettlin.geomessage.service.MessageService
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.olivier.ettlin.geomessage/background"
@@ -53,6 +54,8 @@ class MainActivity : FlutterActivity() {
             return
         }
 
+        val messageService = MessageService(applicationContext)
+
         // Lancement du processus
         job = scope.launch {
             try {
@@ -60,7 +63,7 @@ class MainActivity : FlutterActivity() {
 
                     // Appel de la fonction Flutter
                     if (isGPSEnabled()) {
-                        callFlutterFunction()
+                        messageService.handleMessagesWithoutDates()
                         println("Tâche exécutée en arrière-plan à : ${System.currentTimeMillis()}")
                     }
 
@@ -88,12 +91,6 @@ class MainActivity : FlutterActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopBackgroundProcess() // Arrêter le processus s'il est actif
-    }
-
-    private fun callFlutterFunction() {
-        Handler(Looper.getMainLooper()).post {
-            MethodChannel(flutterEngine!!.dartExecutor, CHANNEL).invokeMethod("handleMessagesWithoutDates", null)
-        }
     }
 
 }
