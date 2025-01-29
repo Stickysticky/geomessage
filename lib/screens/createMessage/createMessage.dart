@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geomessage/screens/createMessage/messageInfoCreator.dart';
+import 'package:geomessage/services/localisationService.dart';
 import 'package:geomessage/services/utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart'; // Assurez-vous d'importer geolocator
@@ -25,6 +26,7 @@ class _CreateMessageState extends State<CreateMessage> {
   double mapHeightFraction = 1.0;
   Message? _message;
   LatLng? _userLocation;
+  LocalisationService _localisationService = LocalisationService();
 
 
   @override
@@ -35,7 +37,7 @@ class _CreateMessageState extends State<CreateMessage> {
 
   // Méthode asynchrone pour récupérer la position actuelle
   Future<void> _initLocation() async {
-    LatLng position = await getCurrentLocation();
+    LatLng position = await _localisationService.getCurrentLocation();
 
     // Mets à jour la carte avec la position récupérée
     setState(() {
@@ -206,6 +208,7 @@ class _CreateMessageState extends State<CreateMessage> {
                       MarkerLayer(
                         markers: markers,
                       ),
+                      Scalebar()
                     ],
                   ),
                   mapHeightFraction == 1.0 ?

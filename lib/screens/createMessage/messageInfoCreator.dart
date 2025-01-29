@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geomessage/services/databaseService.dart';
+import 'package:geomessage/services/messageService.dart';
 import 'package:geomessage/services/utils.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -67,8 +68,12 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
         SnackBar(content: Text(capitalizeFirstLetter(S.of(context).messageCreated))),
       );
 
-      const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
-      await platform.invokeMethod('startBackgroundProcess');
+      /*const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
+      //await platform.invokeMethod('startBackgroundProcess');
+      await platform.invokeMethod('startBackgroundProcess', {
+        'flutterFonction': MessageService.handleMessagesWithoutDates,  // Passer la fonction Flutter en paramètre
+      });*/
+      MessageService.startBackgroundProcess();
 
       Navigator.pushNamed(context, '/home');
     }

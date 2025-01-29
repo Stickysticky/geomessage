@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
+import android.content.Context
+import android.location.LocationManager
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.olivier.ettlin.geomessage/background"
@@ -35,6 +37,14 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+
+
+    private fun isGPSEnabled(): Boolean {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+
     // Fonction pour démarrer le processus en tâche de fond
     private fun startBackgroundProcess(result: MethodChannel.Result) {
         // Vérifie si un processus est déjà actif
@@ -47,7 +57,13 @@ class MainActivity : FlutterActivity() {
         job = scope.launch {
             try {
                 while (isActive) { // La coroutine reste active tant qu'elle n'est pas annulée
-                    println("Tâche exécutée en arrière-plan à : ${System.currentTimeMillis()}")
+
+                    // Appel de la fonction Flutter
+                    if (isGPSEnabled()) {
+                        callFlutterFunction()
+                        println("Tâche exécutée en arrière-plan à : ${System.currentTimeMillis()}")
+                    }
+
                     delay(10000L) // Répéter toutes les 10 secondes
                 }
             } catch (e: CancellationException) {
@@ -73,4 +89,11 @@ class MainActivity : FlutterActivity() {
         super.onDestroy()
         stopBackgroundProcess() // Arrêter le processus s'il est actif
     }
+
+    private fun callFlutterFunction() {
+        Handler(Looper.getMainLooper()).post {
+            MethodChannel(flutterEngine!!.dartExecutor, CHANNEL).invokeMethod("handleMessagesWithoutDates", null)
+        }
+    }
+
 }
