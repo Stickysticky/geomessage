@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.olivier.ettlin.geomessage.model.Message
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DatabaseService(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -72,19 +74,6 @@ class DatabaseService(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
     }
 
-    // Récupère les messages avec une date
-    fun getMessagesWithDate(): List<Message> {
-        val db = readableDatabase
-        val cursor = db.query(
-            "message",
-            null,
-            "date IS NOT NULL",
-            null,
-            null, null, null
-        )
-        return cursorToList(cursor)
-    }
-
     // Récupère les messages sans date
     fun getMessagesWithoutDate(): List<Message> {
         val db = readableDatabase
@@ -106,14 +95,6 @@ class DatabaseService(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             "id = ?",
             arrayOf(id.toString())
         )
-    }
-
-    // Supprime la base de données
-    fun deleteDatabaseFile() {
-        val file = File(context.filesDir, DATABASE_NAME)
-        if (file.exists()) {
-            file.delete()
-        }
     }
 
     // Convertir un curseur en liste de messages
@@ -154,5 +135,21 @@ class DatabaseService(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             }
         }
         return values
+    }
+
+    fun updateMessageWithCurrentDate(message: Message): Int {
+        val db = writableDatabase
+        val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+
+        val values = ContentValues().apply {
+            put("date", currentDate)
+        }
+
+        return db.update(
+            "message",
+            values,
+            "id = ?",
+            arrayOf(message.id.toString())
+        )
     }
 }

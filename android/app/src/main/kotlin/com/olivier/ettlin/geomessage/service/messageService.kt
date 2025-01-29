@@ -60,7 +60,8 @@ class MessageService(private val context: Context) {
                         sendNotification(message)
 
                         // Suppression du message après notification
-                        db.deleteMessage(message.id!!)
+                        //db.deleteMessage(message.id!!)
+                        db.updateMessageWithCurrentDate(message);
                     } else {
                         Log.d("MessageService", "Message hors du rayon")
                     }
