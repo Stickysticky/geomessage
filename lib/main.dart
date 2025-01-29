@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:geomessage/screens/activeMessages/activeMessages.dart';
 import 'package:geomessage/screens/createMessage/createMessage.dart';
 import 'package:geomessage/screens/home/home.dart';
+import 'package:geomessage/screens/sentMessages/sentMessages.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:flutter/services.dart'; // Import pour le MethodChannel
 
@@ -30,7 +31,8 @@ void main() async {
     routes: {
       '/home': (context) => Home(),
       '/message-creation': (context) => CreateMessage(),
-      '/active-messages': (context) => ActiveMessages()
+      '/active-messages': (context) => ActiveMessages(),
+      '/sent-messages': (context) => SentMessages()
     },
     locale: Locale('fr'),
     supportedLocales: [

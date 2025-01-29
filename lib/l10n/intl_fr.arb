@@ -24,5 +24,13 @@
     "confirmation": "confirmation",
     "deleteMessageConfirmation": "Êtes-vous sûr de vouloir supprimer ce message ?",
     "deletedMessage": "Le message a été supprimé",
-    "delete": "supprimer"
+    "delete": "supprimer",
+    "sentMessages": "messages envoyés",
+    "noSentMessages": "aucun messages envoyés",
+    "sentAt": "envoyé le ",
+    "receiver": "destinataire :",
+    "sendingDate": "date d'envoie",
+    "restore": "restaurer",
+    "restoreMessageConfirmation": "Êtes-vous sûr de vouloir restaurer ce message ?",
+    "restoredMessage": "Le message a été restauré"
 }

@@ -55,6 +55,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noActiveMessages": MessageLookupByLibrary.simpleMessage(
       "Il n\'y a aucun message actif.",
     ),
+    "noSentMessages": MessageLookupByLibrary.simpleMessage(
+      "aucun messages envoyés",
+    ),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("numéro de téléphone"),
     "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
       "Numéro de téléphone requis.",
@@ -63,7 +66,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "Le rayon est requis.",
     ),
     "rayon": MessageLookupByLibrary.simpleMessage("radius"),
-    "sentMessages": MessageLookupByLibrary.simpleMessage("Messages envoyés"),
+    "receiver": MessageLookupByLibrary.simpleMessage("destinataire :"),
+    "restore": MessageLookupByLibrary.simpleMessage("restaurer"),
+    "restoreMessageConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Êtes-vous sûr de vouloir restaurer ce message ?",
+    ),
+    "restoredMessage": MessageLookupByLibrary.simpleMessage(
+      "Le message a été restauré",
+    ),
+    "sendingDate": MessageLookupByLibrary.simpleMessage("date d\'envoie"),
+    "sentAt": MessageLookupByLibrary.simpleMessage("envoyé le "),
+    "sentMessages": MessageLookupByLibrary.simpleMessage("messages envoyés"),
     "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
     "validRadius": MessageLookupByLibrary.simpleMessage(
       "Veuillez entrer un rayon valide.",

@@ -51,6 +51,18 @@ class DatabaseService {
     );
   }
 
+  Future<void> removeDateMessage(int id) async {
+    final db = await database;
+
+    await db.update(
+      'message',
+      {'date': null},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+
   Future<Message?> getMessageById(int id) async {
     final db = await database;
     final result = await db.query(

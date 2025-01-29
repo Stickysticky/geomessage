@@ -24,5 +24,12 @@
     "confirmation": "Confirmation",
     "deleteMessageConfirmation": "Are you sure you want to delete this message?",
     "deletedMessage": "The message has been deleted",
-    "delete": "Delete"
+    "delete": "Delete",
+    "noSentMessages": "no messages sent",
+    "sentAt": "sent at ",
+    "receiver": "receiver :",
+    "sendingDate": "sending date",
+    "restore": "restore",
+    "restoreMessageConfirmation": "Are you sure you want to restore this message?",
+    "restoredMessage": "The message has been restored"
 }

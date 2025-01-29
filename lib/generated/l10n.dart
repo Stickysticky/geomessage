@@ -80,10 +80,10 @@ class S {
     );
   }
 
-  /// `Messages envoyés`
+  /// `messages envoyés`
   String get sentMessages {
     return Intl.message(
-      'Messages envoyés',
+      'messages envoyés',
       name: 'sentMessages',
       desc: '',
       args: [],
@@ -263,6 +263,61 @@ class S {
   /// `supprimer`
   String get delete {
     return Intl.message('supprimer', name: 'delete', desc: '', args: []);
+  }
+
+  /// `aucun messages envoyés`
+  String get noSentMessages {
+    return Intl.message(
+      'aucun messages envoyés',
+      name: 'noSentMessages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `envoyé le `
+  String get sentAt {
+    return Intl.message('envoyé le ', name: 'sentAt', desc: '', args: []);
+  }
+
+  /// `destinataire :`
+  String get receiver {
+    return Intl.message('destinataire :', name: 'receiver', desc: '', args: []);
+  }
+
+  /// `date d'envoie`
+  String get sendingDate {
+    return Intl.message(
+      'date d\'envoie',
+      name: 'sendingDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `restaurer`
+  String get restore {
+    return Intl.message('restaurer', name: 'restore', desc: '', args: []);
+  }
+
+  /// `Êtes-vous sûr de vouloir restaurer ce message ?`
+  String get restoreMessageConfirmation {
+    return Intl.message(
+      'Êtes-vous sûr de vouloir restaurer ce message ?',
+      name: 'restoreMessageConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le message a été restauré`
+  String get restoredMessage {
+    return Intl.message(
+      'Le message a été restauré',
+      name: 'restoredMessage',
+      desc: '',
+      args: [],
+    );
   }
 }
 
