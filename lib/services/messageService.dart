@@ -8,11 +8,7 @@ class MessageService {
   DatabaseService _db = DatabaseService();
   LocalisationService _localisationService = LocalisationService();
 
-  static Future<void> handleMessagesWithoutDates () async {
-
-    DatabaseService _db = DatabaseService();
-    LocalisationService _localisationService = LocalisationService();
-
+  Future<void> handleMessagesWithoutDates () async {
     List<Message> messages = await _db.getMessagesWithoutDate();
 
     print("message service");
