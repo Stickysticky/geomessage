@@ -32,5 +32,7 @@
     "sendingDate": "date d'envoie",
     "restore": "restaurer",
     "restoreMessageConfirmation": "Êtes-vous sûr de vouloir restaurer ce message ?",
-    "restoredMessage": "Le message a été restauré"
+    "restoredMessage": "Le message a été restauré",
+    "deleteAllSentMessageConfirmation": "Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés.",
+    "deletedAllSentMessage": "Les messages envoyé ont été supprimé"
 }

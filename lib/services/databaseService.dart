@@ -62,6 +62,15 @@ class DatabaseService {
     );
   }
 
+  Future<void> deleteAllSentMessages() async {
+    final db = await database;
+
+    await db.delete(
+      'message',
+      where: 'date IS NOT NULL',
+    );
+  }
+
 
   Future<Message?> getMessageById(int id) async {
     final db = await database;

@@ -9,18 +9,18 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import com.olivier.ettlin.geomessage.model.Message
-import com.olivier.ettlin.geomessage.service.LocalisationService
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.embedding.engine.FlutterEngine
-import com.olivier.ettlin.geomessage.service.DatabaseService
 import kotlinx.coroutines.Job
 import android.telephony.SmsManager
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+
 
 
 class MessageService(private val context: Context) {
 
-    private val flutterEngine = FlutterEngine(context)
-    private val backgroundChannel = MethodChannel(flutterEngine.dartExecutor, "com.olivier.ettlin.geomessage/background")
     private val db = DatabaseService(context)
     private val localisationService = LocalisationService(context)
 
@@ -33,11 +33,11 @@ class MessageService(private val context: Context) {
             val channel = NotificationChannel(
                 channelId,
                 "Message Service",
-                NotificationManager.IMPORTANCE_HIGH // IMPORTANCE_HIGH pour inclure le son
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = "Notifications pour les messages envoyés"
-                setSound(soundUri, null) // Ajout du son
-                enableVibration(true) // Activer la vibration
+                setSound(soundUri, null)
+                enableVibration(true)
             }
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -76,14 +76,23 @@ class MessageService(private val context: Context) {
     }
 
     private fun sendSms(phoneNumber: String, messageText: String) {
-        val smsManager = SmsManager.getDefault()
+        // Vérifier la permission SEND_SMS
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            Log.e("MessageService", "Permission SEND_SMS non accordée")
+            return
+        }
+
         try {
+            val smsManager: SmsManager = SmsManager.getDefault()
             smsManager.sendTextMessage(phoneNumber, null, messageText, null, null)
             Log.d("MessageService", "SMS envoyé à $phoneNumber: $messageText")
-        } catch (e: Exception) {
-            Log.e("MessageService", "Erreur lors de l'envoi du SMS: ${e.message}")
+        } catch (e: SecurityException) {
+            Log.e("MessageService", "Permission manquante pour envoyer le SMS: ${e.localizedMessage}")
+        } catch (e: Throwable) {  // Utilisez Throwable pour capturer toutes les exceptions
+            Log.e("MessageService", "Erreur lors de l'envoi du SMS: ${e.localizedMessage}")
         }
     }
+
 
     private fun sendNotification(message: Message) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

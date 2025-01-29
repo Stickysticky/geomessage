@@ -31,5 +31,8 @@
     "sendingDate": "sending date",
     "restore": "restore",
     "restoreMessageConfirmation": "Are you sure you want to restore this message?",
-    "restoredMessage": "The message has been restored"
+    "restoredMessage": "The message has been restored",
+    "deleteAllSentMessageConfirmation": "Do you want to delete all sent messages? Unsended messages will not be affected.",
+    "deletedAllSentMessage": "Sent messages have been deleted."
+
 }

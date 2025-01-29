@@ -319,6 +319,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés.`
+  String get deleteAllSentMessageConfirmation {
+    return Intl.message(
+      'Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés.',
+      name: 'deleteAllSentMessageConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Les messages envoyé ont été supprimé`
+  String get deletedAllSentMessage {
+    return Intl.message(
+      'Les messages envoyé ont été supprimé',
+      name: 'deletedAllSentMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

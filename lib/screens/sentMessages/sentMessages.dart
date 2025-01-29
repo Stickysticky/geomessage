@@ -25,18 +25,59 @@ class _SentMessagesState extends State<SentMessages> {
     _messagesFuture = DatabaseService().getMessagesWithDate(); // Initialisez avec la fonction asynchrone
   }
 
-  // Fonction de suppression d'un message
+  Future<void> _showDeleteAllSentMessagesConfirmationDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(capitalizeFirstLetter(S.of(context).confirmation)),
+          content: Text(capitalizeFirstLetter(S.of(context).deleteAllSentMessageConfirmation)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+              child: Text(capitalizeFirstLetter(S.of(context).cancel)),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteAllMessageWithDates();  // Appeler la fonction de suppression
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+              child: Text(capitalizeFirstLetter(S.of(context).delete)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   Future<void> _deleteMessage(Message message) async {
     DatabaseService db = DatabaseService();
     await db.deleteMessage(message.id!);
 
     // Rafraîchissez la liste des messages après suppression
     setState(() {
-      _messagesFuture = DatabaseService().getMessagesWithDate();  // Recharge la liste après suppression
+      _messagesFuture = Future.value([]);  // Recharge la liste après suppression
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedMessage))),
+      SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedAllSentMessage))),
+    );
+  }
+
+  Future<void> _deleteAllMessageWithDates() async {
+    DatabaseService db = DatabaseService();
+    await db.deleteAllSentMessages();
+
+    // Rafraîchissez la liste des messages après suppression
+    setState(() {
+      _messagesFuture = Future.value([]);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedAllSentMessage))),
     );
 
     const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
@@ -71,6 +112,20 @@ class _SentMessagesState extends State<SentMessages> {
 
     return Scaffold(
       appBar: CustomAppBar(title: capitalizeFirstLetter(S.of(context).sentMessages)),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: ElevatedButton(
+          onPressed: () => _showDeleteAllSentMessagesConfirmationDialog(context),
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            foregroundColor: Colors.red,
+            backgroundColor: Colors.white, // Optionnel : couleur de fond
+            padding: const EdgeInsets.all(14),
+          ),
+          child: const Icon(Icons.delete_forever, size: 36), // Agrandir l'icône
+        ),
+      ),
       body: FutureBuilder<List<Message>>(
         future: _messagesFuture,  // Utilisez la future mise à jour
         builder: (context, snapshot) {

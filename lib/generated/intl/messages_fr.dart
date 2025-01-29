@@ -29,8 +29,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Création d\'un message",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("supprimer"),
+    "deleteAllSentMessageConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés.",
+    ),
     "deleteMessageConfirmation": MessageLookupByLibrary.simpleMessage(
       "Êtes-vous sûr de vouloir supprimer ce message ?",
+    ),
+    "deletedAllSentMessage": MessageLookupByLibrary.simpleMessage(
+      "Les messages envoyé ont été supprimé",
     ),
     "deletedMessage": MessageLookupByLibrary.simpleMessage(
       "Le message a été supprimé",
