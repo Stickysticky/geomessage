@@ -30,11 +30,29 @@ android {
         versionName = flutter.versionName
     }
 
+    /*
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
+        }
+    }*/
+
+    signingConfigs {
+        release {
+            keyAlias 'key-geomessage'
+            keyPassword 'rootroot'
+            storeFile file('key-geomessage.jks')
+            storePassword 'rootroot'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
