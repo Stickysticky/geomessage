@@ -90,10 +90,10 @@ class S {
     );
   }
 
-  /// `Veuillez ajouter la localisation pour l'envoie du message`
+  /// `Veuillez ajouter la localisation pour l'envoi du message`
   String get infoMessagePoint {
     return Intl.message(
-      'Veuillez ajouter la localisation pour l\'envoie du message',
+      'Veuillez ajouter la localisation pour l\'envoi du message',
       name: 'infoMessagePoint',
       desc: '',
       args: [],
@@ -285,10 +285,10 @@ class S {
     return Intl.message('destinataire :', name: 'receiver', desc: '', args: []);
   }
 
-  /// `date d'envoie`
+  /// `date d'envoi`
   String get sendingDate {
     return Intl.message(
-      'date d\'envoie',
+      'date d\'envoi',
       name: 'sendingDate',
       desc: '',
       args: [],

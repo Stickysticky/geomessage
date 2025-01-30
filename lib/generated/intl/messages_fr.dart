@@ -48,7 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Pour bénéficier de toutes les fonctionnalités de l\'application, veuillez activer le GPS",
     ),
     "infoMessagePoint": MessageLookupByLibrary.simpleMessage(
-      "Veuillez ajouter la localisation pour l\'envoie du message",
+      "Veuillez ajouter la localisation pour l\'envoi du message",
     ),
     "libelle": MessageLookupByLibrary.simpleMessage("Libellé"),
     "message": MessageLookupByLibrary.simpleMessage("message"),
@@ -80,7 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restoredMessage": MessageLookupByLibrary.simpleMessage(
       "Le message a été restauré",
     ),
-    "sendingDate": MessageLookupByLibrary.simpleMessage("date d\'envoie"),
+    "sendingDate": MessageLookupByLibrary.simpleMessage("date d\'envoi"),
     "sentAt": MessageLookupByLibrary.simpleMessage("envoyé le "),
     "sentMessages": MessageLookupByLibrary.simpleMessage("messages envoyés"),
     "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),

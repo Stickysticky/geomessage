@@ -63,7 +63,7 @@ class _SentMessagesState extends State<SentMessages> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedAllSentMessage))),
+      SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedMessage))),
     );
   }
 
