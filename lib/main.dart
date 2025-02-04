@@ -20,9 +20,9 @@ void main() async {
   final messages = await dbService.getMessagesWithoutDate();
 
   if(messages.isEmpty){
-    stopBackgroundProcess();
+    stopForegroundProcess();
   } else {
-    startBackgroundProcess();
+    startForegroundProcess();
   }
 
 
@@ -62,17 +62,18 @@ void main() async {
 const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
 
 // Fonction pour démarrer la tâche en arrière-plan via Kotlin
-Future<void> startBackgroundProcess() async {
+Future<void> startForegroundProcess() async {
+  print(1);
   try {
-    await platform.invokeMethod('startBackgroundProcess');
+    await platform.invokeMethod('startForegroundProcess');
   } on PlatformException catch (e) {
     print("Erreur lors de l'appel au code natif : ${e.message}");
   }
 }
 // Fonction pour démarrer la tâche en arrière-plan via Kotlin
-Future<void> stopBackgroundProcess() async {
+Future<void> stopForegroundProcess() async {
   try {
-    await platform.invokeMethod('stopBackgroundProcess');
+    await platform.invokeMethod('stopForegroundProcess');
   } on PlatformException catch (e) {
     print("Erreur lors de l'appel au code natif : ${e.message}");
   }

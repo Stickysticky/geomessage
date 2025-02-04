@@ -42,7 +42,7 @@ class _ActiveMessagesState extends State<ActiveMessages> {
     const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
     final messages = await DatabaseService().getMessagesWithoutDate();
     if (messages.isEmpty) {
-      await platform.invokeMethod('stopBackgroundProcess');
+      await platform.invokeMethod('stopForegroundProcess');
     }
 
   }

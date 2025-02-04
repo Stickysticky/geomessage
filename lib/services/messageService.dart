@@ -5,9 +5,6 @@ import 'package:geomessage/services/localisationService.dart';
 
 class MessageService {
   static const backgroundChannel = MethodChannel('com.olivier.ettlin.geomessage/background');
-  DatabaseService _db = DatabaseService();
-  LocalisationService _localisationService = LocalisationService();
-
   static Future<void> handleMessagesWithoutDates () async {
 
     DatabaseService _db = DatabaseService();
@@ -25,28 +22,15 @@ class MessageService {
       }
     }
   }
-/*
-  Future<void> handleMessagesWithoutDates () async {
-    List<Message> messages = await _db.getMessagesWithoutDate();
 
-    print("message service");
-    for(var message in messages){
-      print(message.libelle);
-      if(await _localisationService.checkCurrentLocationInRadius(message)){
-        print("message in radius");
-      } else {
-        print("message not in radius");
-      }
-    }
-  }*/
 
 // Méthode pour démarrer le processus côté Flutter
-  static Future<void> startBackgroundProcess() async {
+  static Future<void> startForegroundProcess() async {
     try {
       // Appeler Kotlin pour démarrer le processus en arrière-plan
-      await backgroundChannel.invokeMethod('startBackgroundProcess');
+      await backgroundChannel.invokeMethod('startForegroundProcess');
     } on PlatformException catch (e) {
-      print("Error calling startBackgroundProcess: ${e.message}");
+      print("Error calling startForegroundService: ${e.message}");
     }
   }
 }

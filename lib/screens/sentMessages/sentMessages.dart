@@ -83,7 +83,7 @@ class _SentMessagesState extends State<SentMessages> {
     const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
     final messages = await DatabaseService().getMessagesWithDate();
     if (messages.isEmpty) {
-      await platform.invokeMethod('stopBackgroundProcess');
+      await platform.invokeMethod('stopForegroundProcess');
     }
 
   }
@@ -102,7 +102,7 @@ class _SentMessagesState extends State<SentMessages> {
     );
 
     const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
-    await platform.invokeMethod('startBackgroundProcess');
+    await platform.invokeMethod('startForegroundProcess');
 
   }
 
