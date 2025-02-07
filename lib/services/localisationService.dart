@@ -41,12 +41,6 @@ class LocalisationService {
 
   Future<bool> checkGps() async {
     return await Geolocator.isLocationServiceEnabled();
-    //Utilisation:
-    /*
-    checkGps().then((isGpsEnabled) {
-  print("GPS activé : $isGpsEnabled");
-});
-     */
   }
 
   Future<bool> checkCurrentLocationInRadius(Message message) async {

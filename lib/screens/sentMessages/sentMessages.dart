@@ -8,6 +8,7 @@ import 'package:geomessage/services/utils.dart';
 import '../../commonWidgets/customAppBar.dart';
 import '../../generated/l10n.dart';
 import '../../model/message.dart';
+import '../../services/messageService.dart';
 
 class SentMessages extends StatefulWidget {
   const SentMessages({super.key});
@@ -80,11 +81,7 @@ class _SentMessagesState extends State<SentMessages> {
       SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedAllSentMessage))),
     );
 
-    const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
-    final messages = await DatabaseService().getMessagesWithDate();
-    if (messages.isEmpty) {
-      await platform.invokeMethod('stopBackgroundProcess');
-    }
+    MessageService.stopBackgroundProcess();
 
   }
 

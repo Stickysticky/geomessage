@@ -68,14 +68,7 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
         SnackBar(content: Text(capitalizeFirstLetter(S.of(context).messageCreated))),
       );
 
-      /*const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
-      //await platform.invokeMethod('startBackgroundProcess');
-      await platform.invokeMethod('startBackgroundProcess', {
-        'flutterFonction': MessageService.handleMessagesWithoutDates,  // Passer la fonction Flutter en paramètre
-      });*/
       MessageService.startBackgroundProcess();
-
-      //Navigator.pushNamed(context, '/home');
       Navigator.pop(context);
     }
   }
