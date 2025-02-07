@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -118,6 +119,23 @@ class DatabaseService {
       'message',
       where: 'id = ?',
       whereArgs: [id],
+    );
+  }
+
+  Future<int> updateMessageWithCurrentDate(Message message) async {
+    final db = await _initDatabase();
+    final dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    final currentDate = dateFormat.format(DateTime.now());
+
+    final values = <String, dynamic>{
+      'date': currentDate,
+    };
+
+    return await db.update(
+      'message',
+      values,
+      where: 'id = ?',
+      whereArgs: [message.id],
     );
   }
 

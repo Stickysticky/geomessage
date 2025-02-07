@@ -81,7 +81,8 @@ class _SentMessagesState extends State<SentMessages> {
       SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedAllSentMessage))),
     );
 
-    MessageService.stopBackgroundProcess();
+    //MessageService.stopBackgroundProcess();
+    MessageService.stopForeGroundProcess();
 
   }
 

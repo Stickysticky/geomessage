@@ -68,7 +68,8 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
         SnackBar(content: Text(capitalizeFirstLetter(S.of(context).messageCreated))),
       );
 
-      MessageService.startBackgroundProcess();
+      //MessageService.startBackgroundProcess();
+      MessageService.startForeGroundProcess();
       Navigator.pop(context);
     }
   }

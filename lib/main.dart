@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:geomessage/screens/activeMessages/activeMessages.dart';
 import 'package:geomessage/screens/createMessage/createMessage.dart';
@@ -6,6 +7,9 @@ import 'package:geomessage/screens/home/home.dart';
 import 'package:geomessage/screens/sentMessages/sentMessages.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:flutter/services.dart';
+import 'package:geomessage/services/messageService.dart';
+import 'package:geomessage/services/notificationService.dart';
+import 'package:geomessage/tasks/messageTask.dart';
 
 import 'generated/l10n.dart';
 
@@ -19,12 +23,18 @@ void main() async {
   // Appeler le code natif pour démarrer la tâche en arrière-plan
   final messages = await dbService.getMessagesWithoutDate();
 
-  if(messages.isEmpty){
-    stopBackgroundProcess();
-  } else {
-    startBackgroundProcess();
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init();
 
+  FlutterForegroundTask.initCommunicationPort();
+
+  if(messages.isEmpty){
+    //stopBackgroundProcess();
+    MessageService.stopForeGroundProcess();
+  } else {
+    //startBackgroundProcess();
+    MessageService.startForeGroundProcess();
+  }
 
   runApp(MaterialApp(
     initialRoute: '/home',
@@ -76,4 +86,32 @@ Future<void> stopBackgroundProcess() async {
   } on PlatformException catch (e) {
     print("Erreur lors de l'appel au code natif : ${e.message}");
   }
+}
+
+@pragma('vm:entry-point')
+void startCallback() {
+  FlutterForegroundTask.setTaskHandler(MessageTask());
+}
+
+void initializeForegroundTask() {
+  FlutterForegroundTask.init(
+    androidNotificationOptions: AndroidNotificationOptions(
+      channelId: 'foreground_service',
+      channelName: 'Foreground Service Notification',
+      channelDescription:
+      'This notification appears when the foreground service is running.',
+      onlyAlertOnce: true,
+    ),
+    iosNotificationOptions: const IOSNotificationOptions(
+      showNotification: false,
+      playSound: false,
+    ),
+    foregroundTaskOptions: ForegroundTaskOptions(
+      eventAction: ForegroundTaskEventAction.repeat(5000),
+      autoRunOnBoot: true,
+      autoRunOnMyPackageReplaced: true,
+      allowWakeLock: true,
+      allowWifiLock: true,
+    ),
+  );
 }

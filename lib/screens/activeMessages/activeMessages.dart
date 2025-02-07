@@ -40,7 +40,8 @@ class _ActiveMessagesState extends State<ActiveMessages> {
       SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedMessage))),
     );
 
-    MessageService.stopBackgroundProcess();
+    //MessageService.stopBackgroundProcess();
+    MessageService.stopForeGroundProcess();
 
   }
 
