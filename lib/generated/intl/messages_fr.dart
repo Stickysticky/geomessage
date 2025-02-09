@@ -22,58 +22,81 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "activeMessage":
-            MessageLookupByLibrary.simpleMessage("Messages actifs"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
-        "confirmation": MessageLookupByLibrary.simpleMessage("confirmation"),
-        "createMessage":
-            MessageLookupByLibrary.simpleMessage("Création d\'un message"),
-        "delete": MessageLookupByLibrary.simpleMessage("supprimer"),
-        "deleteAllSentMessageConfirmation": MessageLookupByLibrary.simpleMessage(
-            "Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés."),
-        "deleteMessageConfirmation": MessageLookupByLibrary.simpleMessage(
-            "Êtes-vous sûr de vouloir supprimer ce message ?"),
-        "deletedAllSentMessage": MessageLookupByLibrary.simpleMessage(
-            "Les messages envoyé ont été supprimé"),
-        "deletedMessage":
-            MessageLookupByLibrary.simpleMessage("Le message a été supprimé"),
-        "error": MessageLookupByLibrary.simpleMessage("Erreur"),
-        "gpsActivation": MessageLookupByLibrary.simpleMessage("Activer le GPS"),
-        "gpsDisabled": MessageLookupByLibrary.simpleMessage("Gps désactivé"),
-        "gpsDisabledInfo": MessageLookupByLibrary.simpleMessage(
-            "Pour bénéficier de toutes les fonctionnalités de l\'application, veuillez activer le GPS"),
-        "infoMessagePoint": MessageLookupByLibrary.simpleMessage(
-            "Veuillez ajouter la localisation pour l\'envoi du message"),
-        "libelle": MessageLookupByLibrary.simpleMessage("Libellé"),
-        "message": MessageLookupByLibrary.simpleMessage("message"),
-        "messageCreated":
-            MessageLookupByLibrary.simpleMessage("Le message a été créé"),
-        "messageRequired":
-            MessageLookupByLibrary.simpleMessage("The message is required"),
-        "noActiveMessages": MessageLookupByLibrary.simpleMessage(
-            "Il n\'y a aucun message actif."),
-        "noSentMessages":
-            MessageLookupByLibrary.simpleMessage("aucun messages envoyés"),
-        "phoneNumber":
-            MessageLookupByLibrary.simpleMessage("numéro de téléphone"),
-        "phoneNumberRequired":
-            MessageLookupByLibrary.simpleMessage("Numéro de téléphone requis."),
-        "radiusRequired":
-            MessageLookupByLibrary.simpleMessage("Le rayon est requis."),
-        "rayon": MessageLookupByLibrary.simpleMessage("radius"),
-        "receiver": MessageLookupByLibrary.simpleMessage("destinataire :"),
-        "restore": MessageLookupByLibrary.simpleMessage("restaurer"),
-        "restoreMessageConfirmation": MessageLookupByLibrary.simpleMessage(
-            "Êtes-vous sûr de vouloir restaurer ce message ?"),
-        "restoredMessage":
-            MessageLookupByLibrary.simpleMessage("Le message a été restauré"),
-        "sendingDate": MessageLookupByLibrary.simpleMessage("date d\'envoi"),
-        "sentAt": MessageLookupByLibrary.simpleMessage("envoyé le "),
-        "sentMessages":
-            MessageLookupByLibrary.simpleMessage("messages envoyés"),
-        "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
-        "validRadius": MessageLookupByLibrary.simpleMessage(
-            "Veuillez entrer un rayon valide."),
-        "validate": MessageLookupByLibrary.simpleMessage("Valider")
-      };
+    "activeMessage": MessageLookupByLibrary.simpleMessage("Messages actifs"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
+    "confirmation": MessageLookupByLibrary.simpleMessage("confirmation"),
+    "createMessage": MessageLookupByLibrary.simpleMessage(
+      "Création d\'un message",
+    ),
+    "delete": MessageLookupByLibrary.simpleMessage("supprimer"),
+    "deleteAllSentMessageConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés.",
+    ),
+    "deleteMessageConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Êtes-vous sûr de vouloir supprimer ce message ?",
+    ),
+    "deletedAllSentMessage": MessageLookupByLibrary.simpleMessage(
+      "Les messages envoyé ont été supprimé",
+    ),
+    "deletedMessage": MessageLookupByLibrary.simpleMessage(
+      "Le message a été supprimé",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("Erreur"),
+    "geomessageRunning": MessageLookupByLibrary.simpleMessage(
+      "Geomessage est en cours d\'utilisation",
+    ),
+    "gpsActivation": MessageLookupByLibrary.simpleMessage("Activer le GPS"),
+    "gpsDisabled": MessageLookupByLibrary.simpleMessage("Gps désactivé"),
+    "gpsDisabledInfo": MessageLookupByLibrary.simpleMessage(
+      "Pour bénéficier de toutes les fonctionnalités de l\'application, veuillez activer le GPS",
+    ),
+    "infoMessagePoint": MessageLookupByLibrary.simpleMessage(
+      "Veuillez ajouter la localisation pour l\'envoi du message",
+    ),
+    "libelle": MessageLookupByLibrary.simpleMessage("Libellé"),
+    "message": MessageLookupByLibrary.simpleMessage("message"),
+    "messageCreated": MessageLookupByLibrary.simpleMessage(
+      "Le message a été créé",
+    ),
+    "messageRequired": MessageLookupByLibrary.simpleMessage(
+      "The message is required",
+    ),
+    "messageSent": MessageLookupByLibrary.simpleMessage("Message envoyé"),
+    "messageSentTo": MessageLookupByLibrary.simpleMessage(
+      "Le message a été envoyé à ",
+    ),
+    "noActiveMessages": MessageLookupByLibrary.simpleMessage(
+      "Il n\'y a aucun message actif.",
+    ),
+    "noSentMessages": MessageLookupByLibrary.simpleMessage(
+      "aucun messages envoyés",
+    ),
+    "phoneNumber": MessageLookupByLibrary.simpleMessage("numéro de téléphone"),
+    "phoneNumberRequired": MessageLookupByLibrary.simpleMessage(
+      "Numéro de téléphone requis.",
+    ),
+    "radiusRequired": MessageLookupByLibrary.simpleMessage(
+      "Le rayon est requis.",
+    ),
+    "rayon": MessageLookupByLibrary.simpleMessage("radius"),
+    "receiver": MessageLookupByLibrary.simpleMessage("destinataire :"),
+    "restore": MessageLookupByLibrary.simpleMessage("restaurer"),
+    "restoreMessageConfirmation": MessageLookupByLibrary.simpleMessage(
+      "Êtes-vous sûr de vouloir restaurer ce message ?",
+    ),
+    "restoredMessage": MessageLookupByLibrary.simpleMessage(
+      "Le message a été restauré",
+    ),
+    "sendingDate": MessageLookupByLibrary.simpleMessage("date d\'envoi"),
+    "sentAt": MessageLookupByLibrary.simpleMessage("envoyé le "),
+    "sentMessages": MessageLookupByLibrary.simpleMessage("messages envoyés"),
+    "tapToApp": MessageLookupByLibrary.simpleMessage(
+      "Appuyez pour retourner sur l\'application",
+    ),
+    "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
+    "validRadius": MessageLookupByLibrary.simpleMessage(
+      "Veuillez entrer un rayon valide.",
+    ),
+    "validate": MessageLookupByLibrary.simpleMessage("Valider"),
+  };
 }

@@ -29,18 +29,25 @@ class _ActiveMessagesState extends State<ActiveMessages> {
   // Fonction de suppression d'un message
   Future<void> _deleteMessage(Message message) async {
     DatabaseService db = DatabaseService();
+    MessageService msService = MessageService();
+
     await db.deleteMessage(message.id!);
 
     // Rafraîchissez la liste des messages après suppression
     setState(() {
-      _messagesFuture = DatabaseService().getMessagesWithoutDate();  // Recharge la liste après suppression
+      _messagesFuture = db.getMessagesWithoutDate();  // Recharge la liste après suppression
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(capitalizeFirstLetter(S.of(context).deletedMessage))),
     );
 
-    MessageService.stopBackgroundProcess();
+    final messages = await db.getMessagesWithoutDate();
+    if(messages.isEmpty){
+      msService.stopForeGroundProcess();
+    }
+    //MessageService.stopBackgroundProcess();
+
 
   }
 

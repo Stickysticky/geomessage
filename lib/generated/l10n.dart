@@ -18,17 +18,20 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -41,8 +44,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -52,12 +57,7 @@ class S {
 
   /// `GeoMessage`
   String get title {
-    return Intl.message(
-      'GeoMessage',
-      name: 'title',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('GeoMessage', name: 'title', desc: '', args: []);
   }
 
   /// `Création d'un message`
@@ -132,12 +132,7 @@ class S {
 
   /// `message`
   String get message {
-    return Intl.message(
-      'message',
-      name: 'message',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('message', name: 'message', desc: '', args: []);
   }
 
   /// `numéro de téléphone`
@@ -152,12 +147,7 @@ class S {
 
   /// `Libellé`
   String get libelle {
-    return Intl.message(
-      'Libellé',
-      name: 'libelle',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Libellé', name: 'libelle', desc: '', args: []);
   }
 
   /// `The message is required`
@@ -182,12 +172,7 @@ class S {
 
   /// `radius`
   String get rayon {
-    return Intl.message(
-      'radius',
-      name: 'rayon',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('radius', name: 'rayon', desc: '', args: []);
   }
 
   /// `Le rayon est requis.`
@@ -212,22 +197,12 @@ class S {
 
   /// `Valider`
   String get validate {
-    return Intl.message(
-      'Valider',
-      name: 'validate',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Valider', name: 'validate', desc: '', args: []);
   }
 
   /// `Annuler`
   String get cancel {
-    return Intl.message(
-      'Annuler',
-      name: 'cancel',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Annuler', name: 'cancel', desc: '', args: []);
   }
 
   /// `Le message a été créé`
@@ -242,12 +217,7 @@ class S {
 
   /// `Erreur`
   String get error {
-    return Intl.message(
-      'Erreur',
-      name: 'error',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Erreur', name: 'error', desc: '', args: []);
   }
 
   /// `Il n'y a aucun message actif.`
@@ -292,12 +262,7 @@ class S {
 
   /// `supprimer`
   String get delete {
-    return Intl.message(
-      'supprimer',
-      name: 'delete',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('supprimer', name: 'delete', desc: '', args: []);
   }
 
   /// `aucun messages envoyés`
@@ -312,22 +277,12 @@ class S {
 
   /// `envoyé le `
   String get sentAt {
-    return Intl.message(
-      'envoyé le ',
-      name: 'sentAt',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('envoyé le ', name: 'sentAt', desc: '', args: []);
   }
 
   /// `destinataire :`
   String get receiver {
-    return Intl.message(
-      'destinataire :',
-      name: 'receiver',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('destinataire :', name: 'receiver', desc: '', args: []);
   }
 
   /// `date d'envoi`
@@ -342,12 +297,7 @@ class S {
 
   /// `restaurer`
   String get restore {
-    return Intl.message(
-      'restaurer',
-      name: 'restore',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('restaurer', name: 'restore', desc: '', args: []);
   }
 
   /// `Êtes-vous sûr de vouloir restaurer ce message ?`
@@ -385,6 +335,46 @@ class S {
     return Intl.message(
       'Les messages envoyé ont été supprimé',
       name: 'deletedAllSentMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message envoyé`
+  String get messageSent {
+    return Intl.message(
+      'Message envoyé',
+      name: 'messageSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le message a été envoyé à `
+  String get messageSentTo {
+    return Intl.message(
+      'Le message a été envoyé à ',
+      name: 'messageSentTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Geomessage est en cours d'utilisation`
+  String get geomessageRunning {
+    return Intl.message(
+      'Geomessage est en cours d\'utilisation',
+      name: 'geomessageRunning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appuyez pour retourner sur l'application`
+  String get tapToApp {
+    return Intl.message(
+      'Appuyez pour retourner sur l\'application',
+      name: 'tapToApp',
       desc: '',
       args: [],
     );
