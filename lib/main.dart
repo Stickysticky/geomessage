@@ -18,22 +18,21 @@ void main() async {
 
   // Initialisation de la base de données
   final dbService = DatabaseService();
+  final msService = MessageService();
   await dbService.database;
 
 
   await NotificationService().init();
 
   FlutterForegroundTask.initCommunicationPort();
-  initializeForegroundTask();
+  msService.requestPermissions();
+  msService.initializeForegroundTask();
 
   final messages = await dbService.getMessagesWithoutDate();
   if(messages.isEmpty){
-    //stopBackgroundProcess();
-    MessageService.stopForeGroundProcess();
+    msService.stopForeGroundProcess();
   } else {
-    //startBackgroundProcess();
-    await MessageService.requestPermissions();
-    await MessageService.startForeGroundProcess();
+    msService.startForeGroundProcess();
   }
 
   runApp(MaterialApp(
@@ -67,52 +66,3 @@ void main() async {
     },
   ));
 }
-
-// Canal de plateforme pour appeler le code natif Kotlin
-const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
-
-// Fonction pour démarrer la tâche en arrière-plan via Kotlin
-Future<void> startBackgroundProcess() async {
-  try {
-    await platform.invokeMethod('startBackgroundProcess');
-  } on PlatformException catch (e) {
-    print("Erreur lors de l'appel au code natif : ${e.message}");
-  }
-}
-// Fonction pour démarrer la tâche en arrière-plan via Kotlin
-Future<void> stopBackgroundProcess() async {
-  try {
-    await platform.invokeMethod('stopBackgroundProcess');
-  } on PlatformException catch (e) {
-    print("Erreur lors de l'appel au code natif : ${e.message}");
-  }
-}
-
-@pragma('vm:entry-point')
-void startCallback() {
-  FlutterForegroundTask.setTaskHandler(MessageTask());
-}
-
-void initializeForegroundTask() {
-  FlutterForegroundTask.init(
-    androidNotificationOptions: AndroidNotificationOptions(
-      channelId: 'foreground_service',
-      channelName: 'Foreground Service Notification',
-      channelDescription:
-      'This notification appears when the foreground service is running.',
-      onlyAlertOnce: true,
-    ),
-    iosNotificationOptions: const IOSNotificationOptions(
-      showNotification: false,
-      playSound: false,
-    ),
-    foregroundTaskOptions: ForegroundTaskOptions(
-      eventAction: ForegroundTaskEventAction.repeat(5000),
-      autoRunOnBoot: true,
-      autoRunOnMyPackageReplaced: true,
-      allowWakeLock: true,
-      allowWifiLock: true,
-    ),
-  );
-}
-

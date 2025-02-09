@@ -1,14 +1,28 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-//import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:geomessage/services/localisationService.dart';
 import 'package:geomessage/services/notificationService.dart';
 
 @pragma('vm:entry-point')
 class MessageTask extends TaskHandler{
+  static const PLATFORM = MethodChannel('com.olivier.ettlin.geomessage/sms');
+
   LocalisationService _localisationService = LocalisationService();
   DatabaseService _dbService = DatabaseService();
   NotificationService _notificationService = NotificationService();
+
+  Future<void> _sendSms(String message, String phoneNumber) async {
+    try {
+      final result = await PLATFORM.invokeMethod('sendSms', {
+        'message': message,
+        'phoneNumber': phoneNumber,
+      });
+      print(result); // Affiche le résultat retourné par Kotlin
+    } on PlatformException catch (e) {
+      print("Erreur d'envoi du SMS: ${e.message}");
+    }
+  }
 
   Future<void> _executeFunction(DateTime timestamp) async {
     if (await _localisationService.checkGps()){
@@ -20,11 +34,8 @@ class MessageTask extends TaskHandler{
           if(await _localisationService.checkCurrentLocationInRadius(message)){
             print("Dans le rayon");
             try {
-              /*await sendSMS(
-                message: message.message,
-                recipients: [message.phoneNumber],
-              );*/
-              print("SMS sent");
+              await _sendSms(message.message, message.phoneNumber);
+              print("SMS envoyé");
               _notificationService.showNotification(
                   id: timestamp.millisecond,
                   title: 'Message envoyé',
@@ -42,7 +53,7 @@ class MessageTask extends TaskHandler{
         }
       } else {
         print("Plus de messages");
-        onDestroy(timestamp);
+        FlutterForegroundTask.stopService();
       }
     }
   }

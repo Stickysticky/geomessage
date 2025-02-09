@@ -60,7 +60,7 @@ class _SentMessagesState extends State<SentMessages> {
 
     // Rafraîchissez la liste des messages après suppression
     setState(() {
-      _messagesFuture = Future.value([]);  // Recharge la liste après suppression
+      _messagesFuture = db.getMessagesWithoutDate();  // Recharge la liste après suppression
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -70,6 +70,8 @@ class _SentMessagesState extends State<SentMessages> {
 
   Future<void> _deleteAllMessageWithDates() async {
     DatabaseService db = DatabaseService();
+    MessageService msService = MessageService();
+
     await db.deleteAllSentMessages();
 
     // Rafraîchissez la liste des messages après suppression
@@ -82,12 +84,13 @@ class _SentMessagesState extends State<SentMessages> {
     );
 
     //MessageService.stopBackgroundProcess();
-    MessageService.stopForeGroundProcess();
+    msService.stopForeGroundProcess();
 
   }
 
   Future<void> _restoreMessage(Message message) async {
     DatabaseService db = DatabaseService();
+    MessageService msService = MessageService();
     await db.removeDateMessage(message.id!);
 
     // Rafraîchissez la liste des messages après suppression
@@ -99,9 +102,7 @@ class _SentMessagesState extends State<SentMessages> {
       SnackBar(content: Text(capitalizeFirstLetter(S.of(context).restoredMessage))),
     );
 
-    const platform = MethodChannel('com.olivier.ettlin.geomessage/background');
-    await platform.invokeMethod('startBackgroundProcess');
-
+    msService.startForeGroundProcess();
   }
 
   @override

@@ -9,7 +9,7 @@ import '../tasks/messageTask.dart';
 class MessageService {
   static const backgroundChannel = MethodChannel('com.olivier.ettlin.geomessage/background');
 
-  void startForegroundTask() {
+  void initializeForegroundTask() {
     FlutterForegroundTask.init(
       androidNotificationOptions: AndroidNotificationOptions(
         channelId: 'foreground_service',
@@ -31,24 +31,7 @@ class MessageService {
   }
 
 
-  static Future<void> startBackgroundProcess() async {
-    try {
-      await Permission.notification.request();
-      await backgroundChannel.invokeMethod('startBackgroundProcess');
-    } on PlatformException catch (e) {
-      print("Error calling startBackgroundProcess: ${e.message}");
-    }
-  }
-
-  static Future<void> stopBackgroundProcess() async {
-    try {
-      await backgroundChannel.invokeMethod('stopBackgroundProcess');
-    } on PlatformException catch (e) {
-      print("Error calling stopBackgroundProcess: ${e.message}");
-    }
-  }
-
-  static Future<void> requestPermissions() async {
+  Future<void> requestPermissions() async {
     final NotificationPermission notificationPermission =
     await FlutterForegroundTask.checkNotificationPermission();
     if (notificationPermission != NotificationPermission.granted) {
@@ -67,7 +50,7 @@ class MessageService {
   }
 
 
-  static Future<ServiceRequestResult> startForeGroundProcess() async {
+  Future<ServiceRequestResult> startForeGroundProcess() async {
     if (await FlutterForegroundTask.isRunningService) {
       return FlutterForegroundTask.restartService();
     } else {
@@ -86,7 +69,7 @@ class MessageService {
 
   }
 
-  static Future<ServiceRequestResult> stopForeGroundProcess() {
+ Future<ServiceRequestResult> stopForeGroundProcess() {
     return FlutterForegroundTask.stopService();
   }
 }

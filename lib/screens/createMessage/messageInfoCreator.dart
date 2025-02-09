@@ -52,6 +52,8 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      MessageService msService = MessageService();
+
       _formKey.currentState!.save(); // Cette ligne appelle les fonctions onSaved des champs
       setState(() {
         if (_libelle != null && _libelle!.isNotEmpty) {
@@ -69,7 +71,7 @@ class _MessageInfoCreatorState extends State<MessageInfoCreator> {
       );
 
       //MessageService.startBackgroundProcess();
-      MessageService.startForeGroundProcess();
+      msService.startForeGroundProcess();
       Navigator.pop(context);
     }
   }
