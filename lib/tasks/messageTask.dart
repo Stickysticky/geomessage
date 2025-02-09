@@ -1,9 +1,10 @@
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:flutter_sms/flutter_sms.dart';
+//import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geomessage/services/databaseService.dart';
 import 'package:geomessage/services/localisationService.dart';
 import 'package:geomessage/services/notificationService.dart';
 
+@pragma('vm:entry-point')
 class MessageTask extends TaskHandler{
   LocalisationService _localisationService = LocalisationService();
   DatabaseService _dbService = DatabaseService();
@@ -19,10 +20,10 @@ class MessageTask extends TaskHandler{
           if(await _localisationService.checkCurrentLocationInRadius(message)){
             print("Dans le rayon");
             try {
-              await sendSMS(
+              /*await sendSMS(
                 message: message.message,
                 recipients: [message.phoneNumber],
-              );
+              );*/
               print("SMS sent");
               _notificationService.showNotification(
                   id: timestamp.millisecond,

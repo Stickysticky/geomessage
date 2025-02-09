@@ -20,20 +20,20 @@ void main() async {
   final dbService = DatabaseService();
   await dbService.database;
 
-  // Appeler le code natif pour démarrer la tâche en arrière-plan
-  final messages = await dbService.getMessagesWithoutDate();
 
-  WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init();
 
   FlutterForegroundTask.initCommunicationPort();
+  initializeForegroundTask();
 
+  final messages = await dbService.getMessagesWithoutDate();
   if(messages.isEmpty){
     //stopBackgroundProcess();
     MessageService.stopForeGroundProcess();
   } else {
     //startBackgroundProcess();
-    MessageService.startForeGroundProcess();
+    await MessageService.requestPermissions();
+    await MessageService.startForeGroundProcess();
   }
 
   runApp(MaterialApp(
@@ -115,3 +115,4 @@ void initializeForegroundTask() {
     ),
   );
 }
+

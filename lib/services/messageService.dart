@@ -1,16 +1,13 @@
-import 'package:flutter/scheduler.dart';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../tasks/messageTask.dart';
 
 class MessageService {
   static const backgroundChannel = MethodChannel('com.olivier.ettlin.geomessage/background');
-
-  @pragma('vm:entry-point')
-  static void startCallback() {
-    FlutterForegroundTask.setTaskHandler(MessageTask());
-  }
 
   void startForegroundTask() {
     FlutterForegroundTask.init(
@@ -36,6 +33,7 @@ class MessageService {
 
   static Future<void> startBackgroundProcess() async {
     try {
+      await Permission.notification.request();
       await backgroundChannel.invokeMethod('startBackgroundProcess');
     } on PlatformException catch (e) {
       print("Error calling startBackgroundProcess: ${e.message}");
@@ -50,6 +48,25 @@ class MessageService {
     }
   }
 
+  static Future<void> requestPermissions() async {
+    final NotificationPermission notificationPermission =
+    await FlutterForegroundTask.checkNotificationPermission();
+    if (notificationPermission != NotificationPermission.granted) {
+      await FlutterForegroundTask.requestNotificationPermission();
+    }
+
+    if (Platform.isAndroid) {
+      if (!await FlutterForegroundTask.isIgnoringBatteryOptimizations) {
+        await FlutterForegroundTask.requestIgnoreBatteryOptimization();
+      }
+
+      if (!await FlutterForegroundTask.canScheduleExactAlarms) {
+        await FlutterForegroundTask.openAlarmsAndRemindersSettings();
+      }
+    }
+  }
+
+
   static Future<ServiceRequestResult> startForeGroundProcess() async {
     if (await FlutterForegroundTask.isRunningService) {
       return FlutterForegroundTask.restartService();
@@ -62,12 +79,19 @@ class MessageService {
         notificationButtons: [
           const NotificationButton(id: 'btn_hello', text: 'hello'),
         ],
+        notificationInitialRoute: '/second',
         callback: startCallback,
       );
     }
+
   }
 
   static Future<ServiceRequestResult> stopForeGroundProcess() {
     return FlutterForegroundTask.stopService();
   }
+}
+
+@pragma('vm:entry-point')
+void startCallback() {
+  FlutterForegroundTask.setTaskHandler(MessageTask());
 }
