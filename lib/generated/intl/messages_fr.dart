@@ -42,6 +42,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Le message a été supprimé",
     ),
     "error": MessageLookupByLibrary.simpleMessage("Erreur"),
+    "geomessageRunning": MessageLookupByLibrary.simpleMessage(
+      "Geomessage est en cours d\'utilisation",
+    ),
     "gpsActivation": MessageLookupByLibrary.simpleMessage("Activer le GPS"),
     "gpsDisabled": MessageLookupByLibrary.simpleMessage("Gps désactivé"),
     "gpsDisabledInfo": MessageLookupByLibrary.simpleMessage(
@@ -57,6 +60,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "messageRequired": MessageLookupByLibrary.simpleMessage(
       "The message is required",
+    ),
+    "messageSent": MessageLookupByLibrary.simpleMessage("Message envoyé"),
+    "messageSentTo": MessageLookupByLibrary.simpleMessage(
+      "Le message a été envoyé à ",
     ),
     "noActiveMessages": MessageLookupByLibrary.simpleMessage(
       "Il n\'y a aucun message actif.",
@@ -83,6 +90,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendingDate": MessageLookupByLibrary.simpleMessage("date d\'envoi"),
     "sentAt": MessageLookupByLibrary.simpleMessage("envoyé le "),
     "sentMessages": MessageLookupByLibrary.simpleMessage("messages envoyés"),
+    "tapToApp": MessageLookupByLibrary.simpleMessage(
+      "Appuyez pour retourner sur l\'application",
+    ),
     "title": MessageLookupByLibrary.simpleMessage("GeoMessage"),
     "validRadius": MessageLookupByLibrary.simpleMessage(
       "Veuillez entrer un rayon valide.",

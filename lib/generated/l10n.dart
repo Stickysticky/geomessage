@@ -339,6 +339,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Message envoyé`
+  String get messageSent {
+    return Intl.message(
+      'Message envoyé',
+      name: 'messageSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le message a été envoyé à `
+  String get messageSentTo {
+    return Intl.message(
+      'Le message a été envoyé à ',
+      name: 'messageSentTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Geomessage est en cours d'utilisation`
+  String get geomessageRunning {
+    return Intl.message(
+      'Geomessage est en cours d\'utilisation',
+      name: 'geomessageRunning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appuyez pour retourner sur l'application`
+  String get tapToApp {
+    return Intl.message(
+      'Appuyez pour retourner sur l\'application',
+      name: 'tapToApp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

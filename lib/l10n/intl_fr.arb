@@ -34,5 +34,9 @@
     "restoreMessageConfirmation": "Êtes-vous sûr de vouloir restaurer ce message ?",
     "restoredMessage": "Le message a été restauré",
     "deleteAllSentMessageConfirmation": "Voulez vous supprimer tout les messages envoyés? Les messages non envoyés ne seront pas affectés.",
-    "deletedAllSentMessage": "Les messages envoyé ont été supprimé"
+    "deletedAllSentMessage": "Les messages envoyé ont été supprimé",
+    "messageSent": "Message envoyé",
+    "messageSentTo": "Le message a été envoyé à ",
+    "geomessageRunning": "Geomessage est en cours d'utilisation",
+    "tapToApp": "Appuyez pour retourner sur l'application"
 }

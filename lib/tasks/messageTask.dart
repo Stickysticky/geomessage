@@ -39,7 +39,7 @@ class MessageTask extends TaskHandler{
               _notificationService.showNotification(
                   id: timestamp.millisecond,
                   title: 'Message envoyé',
-                  body: 'Le message a été envoyé à:'
+                  body: 'Le message a été envoyé au : ${message.phoneNumber}'
               );
             } catch (error) {
               print("Failed to send sms");
@@ -69,7 +69,6 @@ class MessageTask extends TaskHandler{
 
   @override
   Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
-    print('Foreground task started.');
     _executeFunction(timestamp);
   }
   

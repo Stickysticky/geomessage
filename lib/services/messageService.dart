@@ -56,13 +56,8 @@ class MessageService {
     } else {
       return FlutterForegroundTask.startService(
         serviceId: 256,
-        notificationTitle: 'Foreground Service is running',
-        notificationText: 'Tap to return to the app',
-        notificationIcon: null,
-        notificationButtons: [
-          const NotificationButton(id: 'btn_hello', text: 'hello'),
-        ],
-        notificationInitialRoute: '/second',
+        notificationTitle: "Geomessage est en cours d'utilisation",
+        notificationText: "Appuyez pour retourner sur l'application",
         callback: startCallback,
       );
     }
