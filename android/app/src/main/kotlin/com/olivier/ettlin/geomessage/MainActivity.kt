@@ -13,7 +13,7 @@ class MainActivity: FlutterActivity() {
         super.onCreate(savedInstanceState)
 
         // Définir un MethodChannel pour Flutter et Kotlin
-        MethodChannel(flutterEngine?.dartExecutor, CHANNEL).setMethodCallHandler { call, result ->
+        MethodChannel(flutterEngine!!.dartExecutor, CHANNEL).setMethodCallHandler { call, result ->
             if (call.method == "sendSms") {
                 val message = call.argument<String>("message")
                 val phoneNumber = call.argument<String>("phoneNumber")
