@@ -14,6 +14,8 @@ class MessageTask extends TaskHandler{
 
   Future<void> _sendSms(String message, String phoneNumber) async {
     try {
+      final TEST = await PLATFORM.invokeMethod('test');
+      print(TEST);
       final result = await PLATFORM.invokeMethod('sendSms', {
         'message': message,
         'phoneNumber': phoneNumber,
@@ -42,6 +44,7 @@ class MessageTask extends TaskHandler{
                   body: 'Le message a été envoyé au : ${message.phoneNumber}'
               );
             } catch (error) {
+              print(error);
               print("Failed to send sms");
             }
 

@@ -8,6 +8,9 @@ import '../tasks/messageTask.dart';
 
 class MessageService {
   static const backgroundChannel = MethodChannel('com.olivier.ettlin.geomessage/background');
+  NotificationIcon _notificationIcon = NotificationIcon(
+    metaDataName: "ic_launcher",
+  );
 
   void initializeForegroundTask() {
     FlutterForegroundTask.init(
@@ -58,10 +61,10 @@ class MessageService {
         serviceId: 256,
         notificationTitle: "Geomessage est en cours d'utilisation",
         notificationText: "Appuyez pour retourner sur l'application",
+        notificationIcon: _notificationIcon,
         callback: startCallback,
       );
     }
-
   }
 
  Future<ServiceRequestResult> stopForeGroundProcess() {
